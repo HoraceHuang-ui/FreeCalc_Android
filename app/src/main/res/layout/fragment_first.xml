@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FirstFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/eq_form_layout"
+            android:minHeight="48dp"
+            android:hint="Expression">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/eq_form"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <TextView
+            android:id="@+id/mem_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@id/eq_form_layout"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="Mem: 0"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="4dp"
+            />
+
+        <View
+            android:id="@+id/separator1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#aac0c0c0"
+            android:layout_marginTop="32dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mem_text"/>
+
+        <ImageView
+            android:id="@+id/mode_select_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/mode_select"
+            app:layout_constraintTop_toTopOf="@id/mode_select"
+            app:layout_constraintBottom_toBottomOf="@id/mode_select"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/ic_mode_select_outline" />
+
+        <Switch
+            android:id="@+id/mode_select"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="32dp"
+            app:layout_constraintTop_toBottomOf="@id/separator1"
+            app:layout_constraintStart_toEndOf="@id/mode_select_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="Mode: RAD"/>
+
+        <ImageView
+            android:id="@+id/dec_accu_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:layout_constraintBottom_toBottomOf="@+id/accuracy_slider"
+            app:layout_constraintEnd_toStartOf="@+id/slider_desc"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/accuracy_slider"
+            app:srcCompat="@drawable/ic_dec_accu" />
+
+        <TextView
+            android:id="@+id/slider_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Accuracy: 5"
+            android:layout_marginStart="12dp"
+            app:layout_constraintBottom_toBottomOf="@id/accuracy_slider"
+            app:layout_constraintStart_toEndOf="@id/dec_accu_icon"
+            app:layout_constraintTop_toTopOf="@id/accuracy_slider" />
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/accuracy_slider"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:hapticFeedbackEnabled="true"
+            android:stepSize="1"
+            android:valueFrom="0"
+            android:valueTo="15"
+            android:value="5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/slider_desc"
+            app:layout_constraintTop_toBottomOf="@id/mode_select"
+            app:tickVisible="false" />
+
+        <Button
+            android:id="@+id/calc_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Calculate"
+            app:layout_constraintTop_toBottomOf="@id/accuracy_slider"/>
+
+        <TextView
+            android:id="@+id/res_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="Result: 0"
+            app:layout_constraintTop_toBottomOf="@+id/calc_button" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
