@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".FirstFragment">
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -13,7 +12,8 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
             android:id="@+id/eq_form_layout"
             android:minHeight="48dp"
             android:hint="Expression">
@@ -82,7 +82,7 @@
         <TextView
             android:id="@+id/slider_desc"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:text="Accuracy: 5"
             android:layout_marginStart="12dp"
             app:layout_constraintBottom_toBottomOf="@id/accuracy_slider"
@@ -117,11 +117,49 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:textSize="16sp"
+            android:textSize="32sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:text="Result: 0"
             app:layout_constraintTop_toBottomOf="@+id/calc_button" />
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/res_text">
+
+            <GridLayout
+                android:id="@+id/keyboard_grid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
+                android:layout_marginTop="20dp"
+                android:rowCount="7"
+                android:columnCount="4"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+                <Button android:id="@+id/kb_mc" android:text="MC" android:textSize="20sp" android:layout_marginStart="6dp" android:backgroundTint="#1100aa00"/>
+                <Button android:id="@+id/kb_mp" android:text="M+" android:textSize="20sp" android:layout_marginStart="6dp" android:backgroundTint="#1100aa00"/>
+                <Button android:id="@+id/kb_mm" android:text="M-" android:textSize="20sp" android:layout_marginStart="6dp" android:backgroundTint="#1100aa00"/>
+                <Button android:id="@+id/kb_mr" android:text="MR" android:textSize="18sp" android:layout_marginStart="6dp" android:backgroundTint="#1100aa00"/>
+                <Button android:id="@+id/kb_func" android:text="func" android:textSize="18sp" android:layout_marginStart="6dp" android:backgroundTint="#1100aa00"/>
+                <Button android:id="@+id/kb_const" android:text="cons" android:textSize="18sp" android:layout_marginStart="6dp" android:backgroundTint="#1100aa00"/>
+                <Button android:id="@+id/kb_c" android:text="C" android:textSize="18sp" android:layout_marginStart="6dp" android:backgroundTint="#11aa0000"/>
+                <Button android:id="@+id/kb_back" android:text="Back" android:textSize="18sp" android:layout_marginStart="6dp" android:backgroundTint="#11aa0000"/>
+            </GridLayout>
+
+            <Button
+                android:id="@+id/keyboard_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
+                android:layout_marginBottom="12dp"
+                android:backgroundTint="#00000000"
+                android:textColor="?attr/textFillColor"
+                android:text="Hide Dedicated Keyboard"
+                app:layout_constraintTop_toBottomOf="@id/keyboard_grid"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

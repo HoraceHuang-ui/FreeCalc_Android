@@ -18,6 +18,7 @@
         <!-- For buttons -->
         <item name="buttonStyle">@style/Widget.Material3.Button.TextButton</item>
         <!-- Customize your theme here. -->
+        <item name="textFillColor">#66000000</item>
     </style>
 
     <style name="Theme.FreeCalc_Material3Test" parent="Base.Theme.FreeCalc_Material3Test" />

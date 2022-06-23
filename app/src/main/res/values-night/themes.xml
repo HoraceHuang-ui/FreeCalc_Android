@@ -4,7 +4,7 @@
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/material_dynamic_primary70</item>
         <item name="colorPrimaryVariant">@color/design_default_color_primary_variant</item>
-        <item name="colorOnPrimary">@color/material_dynamic_primary10</item>
+        <item name="colorOnPrimary">@color/material_dynamic_primary90</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/material_dynamic_secondary70</item>
         <item name="colorSecondaryVariant">@color/design_default_color_secondary_variant</item>
@@ -17,6 +17,8 @@
         <item name="switchStyle">@style/Widget.Material3.CompoundButton.Switch</item>
         <!-- For buttons -->
         <item name="buttonStyle">@style/Widget.Material3.Button.TextButton</item>
+        <!-- Grayed out text color. -->
+        <item name="textFillColor">#66FFFFFF</item>
         <!-- Customize your theme here. -->
     </style>
 </resources>
