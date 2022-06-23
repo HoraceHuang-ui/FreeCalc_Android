@@ -1,13 +1,24 @@
 package com.example.freecalc_material3test
 
+import android.content.Context
+import android.content.res.Configuration
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
+import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SeekBar
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
+import android.widget.Button
 import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.view.marginStart
 import androidx.fragment.app.Fragment
 import com.example.freecalc_material3test.databinding.FragmentFirstBinding
+import com.google.android.material.button.MaterialButton
 import java.util.*
 import kotlin.math.*
 
@@ -37,6 +48,10 @@ class FirstFragment : Fragment() {
     var mem: Double = 0.0
     var deg = false
 
+    // STATUS VALUES
+    var funcMode = false
+    var consMode = false
+
     // CALC FUNCS
     private fun isFunc(eq: String, i: Int): Boolean {
         val funcs = arrayOf( "sqr", "sin", "cos", "tan", "cot", "abs", "cei", "flo" )
@@ -44,9 +59,8 @@ class FirstFragment : Fragment() {
         if (eq.substring(i).length < 3) return false
         return funcs.contains(eq.substring(i, i+3))
     }
-
     private fun priorTo(tk1: Char, tk2: Char): Int {
-        val priority = mapOf<Char, Int>(
+        val priority = mapOf(
             '+' to 1,
             '-' to 1,
             '%' to 2,
@@ -64,22 +78,18 @@ class FirstFragment : Fragment() {
         else
             0
     }
-
     private fun isOp(op: String): Boolean {
         return "+-*/^".contains(op)
     }
-
     private fun isConst(eq: String, i: Int): Boolean {
         return "EPM".contains(eq[i])
     }
-
     private fun isSpecialFunc(eq: String, i: Int): Boolean {
         val funcs = arrayOf("log")
-        if (i >= eq.length) return false;
-        if (eq.substring(i).length < 3) return false;
+        if (i >= eq.length) return false
+        if (eq.substring(i).length < 3) return false
         return funcs.contains(eq.substring(i, i+3))
     }
-
     private fun transformToRPN(eq: String): Stack<String> {
         val s1: Stack<String> = Stack()
         val s2: Stack<String> = Stack()
@@ -142,7 +152,6 @@ class FirstFragment : Fragment() {
         }
         return s2
     }
-
     private fun calc(eq: String): Double {
         // Transformation
         var s = transformToRPN(eq)
@@ -236,8 +245,12 @@ class FirstFragment : Fragment() {
         // return s.pop().toDouble()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val keyboard_buttons = Array<Button>(20) { MaterialButton(requireContext()) }
+
         binding.calcButton.setOnClickListener {
             try {
                 var s = binding.eqForm.text.toString()
@@ -271,6 +284,172 @@ class FirstFragment : Fragment() {
                 }
             }
         }
+
+        // Show/Hide Dedicated Keyboard
+        binding.keyboardButton.setOnClickListener {
+            if (binding.keyboardButton.text == "Show Dedicated Keyboard") {
+                binding.keyboardButton.text = "Hide Dedicated Keyboard"
+                binding.keyboardGrid.alpha = 1.0f
+            } else {
+                binding.keyboardButton.text = "Show Dedicated Keyboard"
+                binding.keyboardGrid.alpha = 0.0f
+            }
+        }
+
+        // Keyboard upper 8 buttons
+        binding.kbMc.setOnClickListener {
+            binding.kbMc.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY)
+            setM(0.0)
+        }
+        binding.kbMp.setOnClickListener {
+            binding.kbMp.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY)
+            try {
+                binding.calcButton.performClick()
+                setM(mem + binding.resText.text.toString().toDouble())
+            } catch (e: Exception) {
+                Toast.makeText(context, "Invalid expression.", Toast.LENGTH_SHORT).show()
+                binding.resText.text = "Invalid expression."
+            }
+        }
+        binding.kbMm.setOnClickListener {
+            binding.kbMm.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY)
+            try {
+                binding.calcButton.performClick()
+                setM(mem - binding.resText.text.toString().toDouble())
+            } catch (e: Exception) {
+                Toast.makeText(context, "Invalid expression.", Toast.LENGTH_SHORT).show()
+                binding.resText.text = "Invalid expression."
+            }
+        }
+        binding.kbMr.setOnClickListener {
+            binding.kbMr.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY)
+            val s = binding.eqForm.text.toString()
+            val temp = binding.eqForm.selectionStart
+            binding.eqForm.setText(s.substring(0 until binding.eqForm.selectionStart) + "M" + s.substring(binding.eqForm.selectionEnd))
+            binding.eqForm.setSelection(temp+1)
+        }
+        // func & cons listeners are after lower 20 buttons' code
+        binding.kbC.setOnClickListener {
+            binding.kbC.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY)
+            binding.eqForm.setText("")
+            binding.resText.text = ""
+        }
+        binding.kbBack.setOnClickListener {
+            binding.kbBack.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY)
+            val s = binding.eqForm.text.toString()
+            val temp = binding.eqForm.selectionStart
+            if (temp != 0) {
+                binding.eqForm.setText(
+                    s.substring(0 until binding.eqForm.selectionStart - 1) + s.substring(
+                        binding.eqForm.selectionEnd
+                    )
+                )
+                binding.eqForm.setSelection(temp - 1)
+            }
+        }
+
+        // Keyboard lower 20 buttons
+        val keyboard_buttonTexts = "()^%123+456-789*,0./"
+        val keyboard_isOp = arrayOf(
+            true, true, true, true,
+            false, false, false, true,
+            false, false, false, true,
+            false, false, false, true,
+            true, false, true, true
+        )
+        for ((i, kb) in keyboard_buttons.withIndex()) {
+            kb.text = when(i){
+                3 -> "mod"
+                else -> keyboard_buttonTexts[i].toString()
+            }
+            kb.setBackgroundColor(when (keyboard_isOp[i]) {
+                true -> 285212842
+                false -> 285239039
+            })
+            kb.textSize = 20.0f
+            kb.setOnClickListener {
+                kb.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY)
+                val s = binding.eqForm.text.toString()
+                val temp = binding.eqForm.selectionStart
+                binding.eqForm.setText(s.substring(0 until binding.eqForm.selectionStart) +
+                    (when(i) {
+                        3 -> "%"
+                        else -> kb.text.toString()})
+                    + s.substring(binding.eqForm.selectionEnd)
+                )
+                if (i == 3) binding.eqForm.setSelection(temp+1)
+                else binding.eqForm.setSelection(temp+kb.text.length)
+
+                if (funcMode) {
+                    binding.kbFunc.performClick()
+                } else if (consMode) {
+                    binding.kbConst.performClick()
+                }
+            }
+            binding.keyboardGrid.addView(kb)
+        }
+
+        // func
+        val funcMode_kbButtonTexts = arrayOf(
+            "sin", "cos", "tan",
+            "cot", "sqr", "abs",
+            "flo", "log", "cei"
+        )
+        binding.kbFunc.setOnClickListener {
+            binding.kbFunc.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY)
+            if (!funcMode) {
+                funcMode = true
+                binding.kbFunc.setBackgroundColor(Color.parseColor("#8800aa00"))
+                if (consMode) {
+                    consMode = false
+                    binding.kbConst.setBackgroundColor(Color.parseColor("#1100aa00"))
+                }
+                var j = 0
+                for ((i, kb) in keyboard_buttons.withIndex()) {
+                    if (i < 4 || i % 4 == 3 || i > 15) continue
+                    kb.setText(funcMode_kbButtonTexts[j])
+                    j++
+                }
+            } else {
+                funcMode = false
+                binding.kbFunc.setBackgroundColor(Color.parseColor("#1100aa00"))
+                for ((i, kb) in keyboard_buttons.withIndex()) {
+                    if (i < 4 || i % 4 == 3 || i > 15) continue
+                    kb.setText(keyboard_buttonTexts[i].toString())
+                }
+            }
+        }
+
+        // const
+        binding.kbConst.setOnClickListener {
+            binding.kbConst.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY)
+            if (!consMode) {
+                consMode = true
+                binding.kbConst.setBackgroundColor(Color.parseColor("#8800aa00"))
+                if (funcMode) {
+                    funcMode = false
+                    binding.kbFunc.setBackgroundColor(Color.parseColor("#1100aa00"))
+                }
+                for ((i, kb) in keyboard_buttons.withIndex()) {
+                    if (i < 4 || i % 4 == 3 || i > 15) continue
+                    if (i == 4) { kb.setText("E"); continue }
+                    if (i == 5) { kb.setText("P"); continue }
+                    kb.setText("")
+                }
+            } else {
+                consMode = false
+                binding.kbConst.setBackgroundColor(Color.parseColor("#1100aa00"))
+                for ((i, kb) in keyboard_buttons.withIndex()) {
+                    if (i < 4 || i % 4 == 3 || i > 15) continue
+                    kb.setText(keyboard_buttonTexts[i].toString())
+                }
+            }
+        }
+    }
+
+    private fun setM(m: Double) {
+        mem = m
+        binding.memText.text = "Mem: ${m}"
     }
 
     override fun onDestroyView() {
