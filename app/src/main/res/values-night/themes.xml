@@ -2,11 +2,11 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.FreeCalc_Material3Test" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/material_dynamic_primary70</item>
+        <item name="colorPrimary">#4bb6e8</item>
         <item name="colorPrimaryVariant">@color/design_default_color_primary_variant</item>
-        <item name="colorOnPrimary">@color/material_dynamic_primary90</item>
+        <item name="colorOnPrimary">#c1e8ff</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/material_dynamic_secondary70</item>
+        <item name="colorSecondary">#9aaebb</item>
         <item name="colorSecondaryVariant">@color/design_default_color_secondary_variant</item>
         <item name="colorOnSecondary">@color/white</item>
         <!-- Status bar color. -->
