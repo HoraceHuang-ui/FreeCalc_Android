@@ -1,21 +1,14 @@
 package com.example.freecalc_material3test
 
-import android.content.Context
-import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat.getSystemService
-import androidx.core.view.marginStart
 import androidx.fragment.app.Fragment
 import com.example.freecalc_material3test.databinding.FragmentFirstBinding
 import com.google.android.material.button.MaterialButton
@@ -249,6 +242,8 @@ class FirstFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.sliderDesc.text = "%s%d".format(getText(R.string.accuracy), decAccu)
+
         val keyboard_buttons = Array<Button>(20) { MaterialButton(requireContext()) }
 
         binding.calcButton.setOnClickListener {
@@ -264,34 +259,34 @@ class FirstFragment : Fragment() {
                 }
                 binding.resText.text = calc(s).toString()
             } catch (e: Exception) {
-                Toast.makeText(context, "Invalid expression.", Toast.LENGTH_SHORT).show()
-                binding.resText.text = "Invalid expression."
+                Toast.makeText(context, getText(R.string.invalid_expression), Toast.LENGTH_SHORT).show()
+                binding.resText.text = getText(R.string.invalid_expression)
             }
         }
         binding.accuracySlider.addOnChangeListener { slider, _, _ ->
             decAccu = slider.value.toInt()
-            binding.sliderDesc.text = "Accuracy: $decAccu"
+            binding.sliderDesc.text = "%s%d".format(getText(R.string.accuracy), decAccu)
         }
         binding.modeSelect.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
                 true -> {
                     deg = true
-                    binding.modeSelect.text = "Mode: DEG"
+                    binding.modeSelect.text = getText(R.string.mode_deg)
                 }
                 false -> {
                     deg = false
-                    binding.modeSelect.text = "Mode: RAD"
+                    binding.modeSelect.text = getText(R.string.mode_rad)
                 }
             }
         }
 
         // Show/Hide Dedicated Keyboard
         binding.keyboardButton.setOnClickListener {
-            if (binding.keyboardButton.text == "Show Dedicated Keyboard") {
-                binding.keyboardButton.text = "Hide Dedicated Keyboard"
+            if (binding.keyboardButton.text == getText(R.string.show_dedicated_keyboard)) {
+                binding.keyboardButton.text = getText(R.string.hide_dedicated_keyboard)
                 binding.keyboardGrid.alpha = 1.0f
             } else {
-                binding.keyboardButton.text = "Show Dedicated Keyboard"
+                binding.keyboardButton.text = getText(R.string.show_dedicated_keyboard)
                 binding.keyboardGrid.alpha = 0.0f
             }
         }
@@ -307,8 +302,8 @@ class FirstFragment : Fragment() {
                 binding.calcButton.performClick()
                 setM(mem + binding.resText.text.toString().toDouble())
             } catch (e: Exception) {
-                Toast.makeText(context, "Invalid expression.", Toast.LENGTH_SHORT).show()
-                binding.resText.text = "Invalid expression."
+                Toast.makeText(context, getText(R.string.invalid_expression), Toast.LENGTH_SHORT).show()
+                binding.resText.text = getText(R.string.invalid_expression)
             }
         }
         binding.kbMm.setOnClickListener {
@@ -317,8 +312,8 @@ class FirstFragment : Fragment() {
                 binding.calcButton.performClick()
                 setM(mem - binding.resText.text.toString().toDouble())
             } catch (e: Exception) {
-                Toast.makeText(context, "Invalid expression.", Toast.LENGTH_SHORT).show()
-                binding.resText.text = "Invalid expression."
+                Toast.makeText(context, getText(R.string.invalid_expression), Toast.LENGTH_SHORT).show()
+                binding.resText.text = getText(R.string.invalid_expression)
             }
         }
         binding.kbMr.setOnClickListener {
@@ -407,7 +402,7 @@ class FirstFragment : Fragment() {
                 var j = 0
                 for ((i, kb) in keyboard_buttons.withIndex()) {
                     if (i < 4 || i % 4 == 3 || i > 15) continue
-                    kb.setText(funcMode_kbButtonTexts[j])
+                    kb.text = funcMode_kbButtonTexts[j]
                     j++
                 }
             } else {
@@ -415,7 +410,7 @@ class FirstFragment : Fragment() {
                 binding.kbFunc.setBackgroundColor(Color.parseColor("#1100aa00"))
                 for ((i, kb) in keyboard_buttons.withIndex()) {
                     if (i < 4 || i % 4 == 3 || i > 15) continue
-                    kb.setText(keyboard_buttonTexts[i].toString())
+                    kb.text = keyboard_buttonTexts[i].toString()
                 }
             }
         }
@@ -432,16 +427,18 @@ class FirstFragment : Fragment() {
                 }
                 for ((i, kb) in keyboard_buttons.withIndex()) {
                     if (i < 4 || i % 4 == 3 || i > 15) continue
-                    if (i == 4) { kb.setText("E"); continue }
-                    if (i == 5) { kb.setText("P"); continue }
-                    kb.setText("")
+                    if (i == 4) {
+                        kb.text = "E"; continue }
+                    if (i == 5) {
+                        kb.text = "P"; continue }
+                    kb.text = ""
                 }
             } else {
                 consMode = false
                 binding.kbConst.setBackgroundColor(Color.parseColor("#1100aa00"))
                 for ((i, kb) in keyboard_buttons.withIndex()) {
                     if (i < 4 || i % 4 == 3 || i > 15) continue
-                    kb.setText(keyboard_buttonTexts[i].toString())
+                    kb.text = keyboard_buttonTexts[i].toString()
                 }
             }
         }
