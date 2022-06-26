@@ -16,7 +16,7 @@
             app:layout_constraintTop_toTopOf="parent"
             android:id="@+id/eq_form_layout"
             android:minHeight="48dp"
-            android:hint="Expression">
+            android:hint="@string/expression">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/eq_form"
                 android:layout_width="match_parent"
@@ -49,14 +49,15 @@
             android:id="@+id/mode_select_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/mode_select"
-            app:layout_constraintTop_toTopOf="@id/mode_select"
-            app:layout_constraintBottom_toBottomOf="@id/mode_select"
             android:layout_weight="1"
+            android:importantForAccessibility="no"
+            app:layout_constraintBottom_toBottomOf="@id/mode_select"
+            app:layout_constraintEnd_toStartOf="@id/mode_select"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/mode_select"
             app:srcCompat="@drawable/ic_mode_select_outline" />
 
-        <Switch
+        <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/mode_select"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -66,13 +67,14 @@
             app:layout_constraintTop_toBottomOf="@id/separator1"
             app:layout_constraintStart_toEndOf="@id/mode_select_icon"
             app:layout_constraintEnd_toEndOf="parent"
-            android:text="Mode: RAD"/>
+            android:text="@string/mode_rad"/>
 
         <ImageView
             android:id="@+id/dec_accu_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:importantForAccessibility="no"
             app:layout_constraintBottom_toBottomOf="@+id/accuracy_slider"
             app:layout_constraintEnd_toStartOf="@+id/slider_desc"
             app:layout_constraintStart_toStartOf="parent"
@@ -83,7 +85,7 @@
             android:id="@+id/slider_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Accuracy: 5"
+            android:text="@string/accuracy"
             android:layout_marginStart="12dp"
             app:layout_constraintBottom_toBottomOf="@id/accuracy_slider"
             app:layout_constraintStart_toEndOf="@id/dec_accu_icon"
@@ -109,7 +111,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="Calculate"
+            android:text="@string/calculate"
             app:layout_constraintTop_toBottomOf="@id/accuracy_slider"/>
 
         <TextView
@@ -156,7 +158,7 @@
                 android:layout_gravity="bottom|center"
                 android:layout_marginBottom="12dp"
                 android:backgroundTint="#00000000"
-                android:text="Hide Dedicated Keyboard"
+                android:text="@string/hide_dedicated_keyboard"
                 app:layout_constraintTop_toBottomOf="@id/keyboard_grid"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>

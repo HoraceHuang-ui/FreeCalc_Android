@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">自由计算器</string>
+    <string name="action_settings">设置</string>
+    <string name="first_fragment_label">自由计算器 by HYY</string>
+    <string name="second_fragment_label">页面 2</string>
+    <string name="next">下一页</string>
+    <string name="previous">上一页</string>
+    <string name="expression">表达式</string>
+    <string name="mode_rad">弧度制</string>
+    <string name="accuracy">小数精确位数：</string>
+    <string name="calculate">计算</string>
+    <string name="hide_dedicated_keyboard">隐藏键盘</string>
+    <string name="invalid_expression">请确认表达式无误后重试。</string>
+    <string name="show_dedicated_keyboard">显示键盘</string>
+    <string name="mode_deg">角度制</string>
+</resources>
