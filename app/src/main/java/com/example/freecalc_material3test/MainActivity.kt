@@ -1,18 +1,14 @@
 package com.example.freecalc_material3test
 
-import android.content.res.Configuration
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import android.view.Menu
-import android.view.MenuItem
-import android.widget.ArrayAdapter
-import android.widget.Toast
 import com.example.freecalc_material3test.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
