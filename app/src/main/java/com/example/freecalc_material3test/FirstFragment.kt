@@ -29,7 +29,7 @@ class FirstFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
         return binding.root
@@ -44,6 +44,14 @@ class FirstFragment : Fragment() {
     // STATUS VALUES
     var funcMode = false
     var consMode = false
+
+    val keyboard_buttons = Array<Button>(20) { MaterialButton(requireContext()) }
+    val keyboard_buttonTexts = "()^%123+456-789*,0./"
+    val funcMode_kbButtonTexts = arrayOf(
+        "sin", "cos", "tan",
+        "cot", "sqr", "abs",
+        "flo", "log", "cei"
+    )
 
     // CALC FUNCS
     private fun isFunc(eq: String, i: Int): Boolean {
@@ -243,182 +251,30 @@ class FirstFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.sliderDesc.text = "%s%d".format(getText(R.string.accuracy), decAccu)
-        val keyboard_buttons = Array<Button>(20) { MaterialButton(requireContext()) }
-
         binding.accuracySlider.addOnChangeListener(accuracySliderListener())
         binding.modeSelect.setOnCheckedChangeListener(modeSelectSwitchListener())
         binding.calcButton.setOnClickListener(calcButtonListener())
         binding.keyboardButton.setOnClickListener(dedicatedKeyboardButtonListener())
 
-        // Keyboard upper 8 buttons
-        binding.kbMc.setOnClickListener {
-            performHaptic(it)
-            setM(0.0)
-        }
-        binding.kbMp.setOnClickListener {
-            performHaptic(it)
-            try {
-                binding.calcButton.performClick()
-                setM(mem + binding.resText.text.toString().toDouble())
-            } catch (e: Exception) {
-                Toast.makeText(context, getText(R.string.invalid_expression), Toast.LENGTH_SHORT).show()
-                binding.resText.text = getText(R.string.invalid_expression)
-            }
-        }
-        binding.kbMm.setOnClickListener {
-            performHaptic(it)
-            try {
-                binding.calcButton.performClick()
-                setM(mem - binding.resText.text.toString().toDouble())
-            } catch (e: Exception) {
-                Toast.makeText(context, getText(R.string.invalid_expression), Toast.LENGTH_SHORT).show()
-                binding.resText.text = getText(R.string.invalid_expression)
-            }
-        }
-        binding.kbMr.setOnClickListener {
-            performHaptic(it)
-            val s = binding.eqForm.text.toString()
-            val temp = binding.eqForm.selectionStart
-            binding.eqForm.setText(s.substring(0 until binding.eqForm.selectionStart) + "M" + s.substring(binding.eqForm.selectionEnd))
-            binding.eqForm.setSelection(temp+1)
-        }
-        // func & cons listeners are after lower 20 buttons' code
-        binding.kbC.setOnClickListener {
-            performHaptic(it)
-            binding.eqForm.setText("")
-            binding.resText.text = ""
-        }
-        binding.kbBack.setOnClickListener {
-            performHaptic(it)
-            val s = binding.eqForm.text.toString()
-            val temp = binding.eqForm.selectionStart
-            if (temp != 0) {
-                binding.eqForm.setText(
-                    s.substring(0 until binding.eqForm.selectionStart - 1) + s.substring(
-                        binding.eqForm.selectionEnd
-                    )
-                )
-                binding.eqForm.setSelection(temp - 1)
-            }
-        }
+        binding.kbMc.setOnClickListener(kbMCListener())
+        binding.kbMp.setOnClickListener(kbMPlusListener())
+        binding.kbMm.setOnClickListener(kbMMinusListener())
+        binding.kbMr.setOnClickListener(kbMRListener())
+        binding.kbC.setOnClickListener(kbCListener())
+        binding.kbBack.setOnClickListener(kbBackListener())
 
-        // Keyboard lower 20 buttons
-        val keyboard_buttonTexts = "()^%123+456-789*,0./"
-        val keyboard_isOp = arrayOf(
-            true, true, true, true,
-            false, false, false, true,
-            false, false, false, true,
-            false, false, false, true,
-            true, false, true, true
-        )
-        for ((i, kb) in keyboard_buttons.withIndex()) {
-            kb.text = when(i){
-                3 -> "mod"
-                else -> keyboard_buttonTexts[i].toString()
-            }
-            kb.setBackgroundColor(when (keyboard_isOp[i]) {
-                true -> 285212842
-                false -> 285239039
-            })
-            kb.textSize = 20.0f
-            kb.setOnClickListener {
-                performHaptic(it)
-                val s = binding.eqForm.text.toString()
-                val temp = binding.eqForm.selectionStart
-                binding.eqForm.setText(s.substring(0 until binding.eqForm.selectionStart) +
-                    (when(i) {
-                        3 -> "%"
-                        else -> kb.text.toString()})
-                    + s.substring(binding.eqForm.selectionEnd)
-                )
-                if (i == 3) binding.eqForm.setSelection(temp+1)
-                else binding.eqForm.setSelection(temp+kb.text.length)
+        configureKbLower20Buttons()
 
-                if (funcMode) {
-                    binding.kbFunc.performClick()
-                } else if (consMode) {
-                    binding.kbConst.performClick()
-                }
-            }
-            binding.keyboardGrid.addView(kb)
-        }
-
-        // func
-        val funcMode_kbButtonTexts = arrayOf(
-            "sin", "cos", "tan",
-            "cot", "sqr", "abs",
-            "flo", "log", "cei"
-        )
-        binding.kbFunc.setOnClickListener {
-            performHaptic(it)
-            if (!funcMode) {
-                funcMode = true
-                binding.kbFunc.setBackgroundColor(Color.parseColor("#8800aa00"))
-                if (consMode) {
-                    consMode = false
-                    binding.kbConst.setBackgroundColor(Color.parseColor("#1100aa00"))
-                }
-                var j = 0
-                for ((i, kb) in keyboard_buttons.withIndex()) {
-                    if (i < 4 || i % 4 == 3 || i > 15) continue
-                    kb.text = funcMode_kbButtonTexts[j]
-                    j++
-                }
-            } else {
-                funcMode = false
-                binding.kbFunc.setBackgroundColor(Color.parseColor("#1100aa00"))
-                for ((i, kb) in keyboard_buttons.withIndex()) {
-                    if (i < 4 || i % 4 == 3 || i > 15) continue
-                    kb.text = keyboard_buttonTexts[i].toString()
-                }
-            }
-        }
-
-        // const
-        binding.kbConst.setOnClickListener {
-            performHaptic(it)
-            if (!consMode) {
-                consMode = true
-                binding.kbConst.setBackgroundColor(Color.parseColor("#8800aa00"))
-                if (funcMode) {
-                    funcMode = false
-                    binding.kbFunc.setBackgroundColor(Color.parseColor("#1100aa00"))
-                }
-                for ((i, kb) in keyboard_buttons.withIndex()) {
-                    if (i < 4 || i % 4 == 3 || i > 15) continue
-                    if (i == 4) {
-                        kb.text = "E"; continue }
-                    if (i == 5) {
-                        kb.text = "P"; continue }
-                    kb.text = ""
-                }
-            } else {
-                consMode = false
-                binding.kbConst.setBackgroundColor(Color.parseColor("#1100aa00"))
-                for ((i, kb) in keyboard_buttons.withIndex()) {
-                    if (i < 4 || i % 4 == 3 || i > 15) continue
-                    kb.text = keyboard_buttonTexts[i].toString()
-                }
-            }
-        }
+        binding.kbFunc.setOnClickListener(kbFuncButtonListener())
+        binding.kbConst.setOnClickListener(kbConsButtonListener())
     }
 
-    private fun performHaptic(view: View) {
-        view.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY)
-    }
-
-    private fun dedicatedKeyboardButtonListener(): View.OnClickListener {
-        return View.OnClickListener {
-            if (binding.keyboardButton.text == getText(R.string.show_dedicated_keyboard)) {
-                binding.keyboardButton.text = getText(R.string.hide_dedicated_keyboard)
-                binding.keyboardGrid.alpha = 1.0f
-            } else {
-                binding.keyboardButton.text = getText(R.string.show_dedicated_keyboard)
-                binding.keyboardGrid.alpha = 0.0f
-            }
+    private fun accuracySliderListener(): Slider.OnChangeListener {
+        return Slider.OnChangeListener { slider, _, _ ->
+            decAccu = slider.value.toInt()
+            binding.sliderDesc.text = "%s%d".format(getText(R.string.accuracy), decAccu)
         }
     }
-
     private fun modeSelectSwitchListener(): CompoundButton.OnCheckedChangeListener {
         return CompoundButton.OnCheckedChangeListener{ _, checkedId ->
             when (checkedId) {
@@ -433,14 +289,6 @@ class FirstFragment : Fragment() {
             }
         }
     }
-
-    private fun accuracySliderListener(): Slider.OnChangeListener {
-        return Slider.OnChangeListener { slider, _, _ ->
-            decAccu = slider.value.toInt()
-            binding.sliderDesc.text = "%s%d".format(getText(R.string.accuracy), decAccu)
-        }
-    }
-
     private fun calcButtonListener(): View.OnClickListener {
         return View.OnClickListener {
             var s = binding.eqForm.text.toString()
@@ -456,6 +304,192 @@ class FirstFragment : Fragment() {
         }
     }
 
+    private fun dedicatedKeyboardButtonListener(): View.OnClickListener {
+        return View.OnClickListener {
+            if (binding.keyboardButton.text == getText(R.string.show_dedicated_keyboard)) {
+                binding.keyboardButton.text = getText(R.string.hide_dedicated_keyboard)
+                binding.keyboardGrid.alpha = 1.0f
+            } else {
+                binding.keyboardButton.text = getText(R.string.show_dedicated_keyboard)
+                binding.keyboardGrid.alpha = 0.0f
+            }
+        }
+    }
+    private fun kbMCListener(): View.OnClickListener {
+        return View.OnClickListener {
+            performHaptic(it)
+            setM(0.0)
+        }
+    }
+    private fun kbMPlusListener(): View.OnClickListener {
+        return View.OnClickListener {
+            performHaptic(it)
+            try {
+                binding.calcButton.performClick()
+                setM(mem + binding.resText.text.toString().toDouble())
+            } catch (e: Exception) {
+                Toast.makeText(context, getText(R.string.invalid_expression), Toast.LENGTH_SHORT).show()
+                binding.resText.text = getText(R.string.invalid_expression)
+            }
+        }
+    }
+    private fun kbMMinusListener(): View.OnClickListener {
+        return View.OnClickListener {
+            performHaptic(it)
+            try {
+                binding.calcButton.performClick()
+                setM(mem - binding.resText.text.toString().toDouble())
+            } catch (e: Exception) {
+                Toast.makeText(context, getText(R.string.invalid_expression), Toast.LENGTH_SHORT).show()
+                binding.resText.text = getText(R.string.invalid_expression)
+            }
+        }
+    }
+    private fun kbMRListener(): View.OnClickListener {
+        return View.OnClickListener {
+            performHaptic(it)
+            val s = binding.eqForm.text.toString()
+            val temp = binding.eqForm.selectionStart
+            binding.eqForm.setText(s.substring(0 until binding.eqForm.selectionStart) + "M" + s.substring(binding.eqForm.selectionEnd))
+            binding.eqForm.setSelection(temp+1)
+        }
+    }
+    private fun kbCListener(): View.OnClickListener {
+        return View.OnClickListener {
+            performHaptic(it)
+            binding.eqForm.setText("")
+            binding.resText.text = ""
+        }
+    }
+    private fun kbBackListener(): View.OnClickListener {
+        return View.OnClickListener  {
+            performHaptic(it)
+            val s = binding.eqForm.text.toString()
+            val temp = binding.eqForm.selectionStart
+            if (temp != 0) {
+                binding.eqForm.setText(
+                    s.substring(0 until binding.eqForm.selectionStart - 1) + s.substring(
+                        binding.eqForm.selectionEnd
+                    )
+                )
+                binding.eqForm.setSelection(temp - 1)
+            }
+        }
+    }
+    private fun setKbButtonProperties(index: Int, kb: Button) {
+        val keyboard_isOp = arrayOf(
+            true, true, true, true,
+            false, false, false, true,
+            false, false, false, true,
+            false, false, false, true,
+            true, false, true, true
+        )
+        kb.text = when(index){
+            3 -> "mod"
+            else -> keyboard_buttonTexts[index].toString()
+        }
+        kb.setBackgroundColor(when (keyboard_isOp[index]) {
+            true -> 285212842
+            false -> 285239039
+        })
+        kb.textSize = 20.0f
+    }
+    private fun kbLower20ButtonClickListener(i: Int, kb: Button): View.OnClickListener {
+        return View.OnClickListener {
+            performHaptic(it)
+            val s = binding.eqForm.text.toString()
+            val temp = binding.eqForm.selectionStart
+            binding.eqForm.setText(s.substring(0 until binding.eqForm.selectionStart) +
+                    (when(i) {
+                        3 -> "%"
+                        else -> kb.text.toString()})
+                    + s.substring(binding.eqForm.selectionEnd)
+            )
+            if (i == 3) binding.eqForm.setSelection(temp+1)
+            else binding.eqForm.setSelection(temp+kb.text.length)
+
+            if (funcMode) {
+                binding.kbFunc.performClick()
+            } else if (consMode) {
+                binding.kbConst.performClick()
+            }
+        }
+    }
+    private fun configureKbLower20Buttons() {
+        for ((i, kb) in keyboard_buttons.withIndex()) {
+            setKbButtonProperties(i, kb)
+            kb.setOnClickListener(kbLower20ButtonClickListener(i, kb))
+            binding.keyboardGrid.addView(kb)
+        }
+    }
+    private fun setFuncMode() {
+        funcMode = true
+        binding.kbFunc.setBackgroundColor(Color.parseColor("#8800aa00"))
+        if (consMode) {
+            consMode = false
+            binding.kbConst.setBackgroundColor(Color.parseColor("#1100aa00"))
+        }
+        var j = 0
+        for ((i, kb) in keyboard_buttons.withIndex()) {
+            if (i < 4 || i % 4 == 3 || i > 15) continue
+            kb.text = funcMode_kbButtonTexts[j]
+            j++
+        }
+    }
+    private fun setConsMode() {
+        consMode = true
+        binding.kbConst.setBackgroundColor(Color.parseColor("#8800aa00"))
+        if (funcMode) {
+            funcMode = false
+            binding.kbFunc.setBackgroundColor(Color.parseColor("#1100aa00"))
+        }
+        for ((i, kb) in keyboard_buttons.withIndex()) {
+            if (i < 4 || i % 4 == 3 || i > 15) continue
+            if (i == 4) {
+                kb.text = "E"; continue }
+            if (i == 5) {
+                kb.text = "P"; continue }
+            kb.text = ""
+        }
+    }
+    private fun resetModes() {
+        if (funcMode) {
+            funcMode = false
+            binding.kbFunc.setBackgroundColor(Color.parseColor("#1100aa00"))
+            for ((i, kb) in keyboard_buttons.withIndex()) {
+                if (i < 4 || i % 4 == 3 || i > 15) continue
+                kb.text = keyboard_buttonTexts[i].toString()
+            }
+        } else {
+            consMode = false
+            binding.kbConst.setBackgroundColor(Color.parseColor("#1100aa00"))
+            for ((i, kb) in keyboard_buttons.withIndex()) {
+                if (i < 4 || i % 4 == 3 || i > 15) continue
+                kb.text = keyboard_buttonTexts[i].toString()
+            }
+        }
+    }
+    private fun kbFuncButtonListener(): View.OnClickListener {
+        return View.OnClickListener {
+            performHaptic(it)
+            if (!funcMode) {
+                setFuncMode()
+            } else {
+                resetModes()
+            }
+        }
+    }
+    private fun kbConsButtonListener(): View.OnClickListener {
+        return View.OnClickListener {
+            performHaptic(it)
+            if (!consMode) {
+                setConsMode()
+            } else {
+                resetModes()
+            }
+        }
+    }
+
     private fun tryCalculation(s: String) {
         try {
             binding.resText.text = calc(s).toString()
@@ -463,15 +497,16 @@ class FirstFragment : Fragment() {
             showError(getText(R.string.invalid_expression).toString())
         }
     }
-
     private fun showError(message: String) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
         binding.resText.text = message
     }
-
     private fun setM(m: Double) {
         mem = m
         binding.memText.text = "Mem: ${m}"
+    }
+    private fun performHaptic(view: View) {
+        view.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY)
     }
 
     override fun onDestroyView() {
@@ -479,3 +514,4 @@ class FirstFragment : Fragment() {
         _binding = null
     }
 }
+
