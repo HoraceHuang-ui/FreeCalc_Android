@@ -1,17 +1,17 @@
 package com.example.freecalc_material3test
 
 import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.CompoundButton
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.example.freecalc_material3test.databinding.FragmentFirstBinding
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.slider.Slider
 import java.util.*
 import kotlin.math.*
 
@@ -83,6 +83,7 @@ class FirstFragment : Fragment() {
         if (eq.substring(i).length < 3) return false
         return funcs.contains(eq.substring(i, i+3))
     }
+
     private fun transformToRPN(eq: String): Stack<String> {
         val s1: Stack<String> = Stack()
         val s2: Stack<String> = Stack()
@@ -155,15 +156,15 @@ class FirstFragment : Fragment() {
 
         // Calculation
         s = Stack()
-        for (token in tokens) {
+        tokens.forEach {
             // Numbers
-            if (token[0] in '0'..'9' || token[0] == '-' && token.length > 1)
-                s.push(token)
+            if (it[0] in '0'..'9' || it[0] == '-' && it.length > 1)
+                s.push(it)
             // Operators
-            else if (isOp(token)) {
+            else if (isOp(it)) {
                 val op1 = s.pop()
                 val op2 = s.pop()
-                when (token) {
+                when (it) {
                     "+" -> s.push((op2.toDouble() + op1.toDouble()).toString())
                     "-" -> s.push((op2.toDouble() - op1.toDouble()).toString())
                     "%" -> s.push((op2.toDouble() % op1.toDouble()).toString())
@@ -173,17 +174,17 @@ class FirstFragment : Fragment() {
                 }
             }
             // Constants
-            else if (isConst(token, 0)) {
-                when (token) {
+            else if (isConst(it, 0)) {
+                when (it) {
                     "E" -> s.push(E.toString())
                     "P" -> s.push(PI.toString())
                     "M" -> s.push(mem.toString())
                 }
             }
             // Functions
-            else if (isFunc(token, 0)) {
+            else if (isFunc(it, 0)) {
                 val num = s.pop().toDouble()
-                when (token) {
+                when (it) {
                     "sqr" -> s.push(sqrt(num).toString())
                     "tan" -> s.push(if (deg) {
                                 tan(Math.toRadians(num)).toString()
@@ -223,8 +224,8 @@ class FirstFragment : Fragment() {
                 }
             }
             // Special functions
-            else if (isSpecialFunc(token, 0)) {
-                when (token) {
+            else if (isSpecialFunc(it, 0)) {
+                when (it) {
                     "log" -> {
                         val num1 = s.pop().toDouble()
                         val num2 = s.pop().toDouble()
@@ -238,66 +239,24 @@ class FirstFragment : Fragment() {
         // return s.pop().toDouble()
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.sliderDesc.text = "%s%d".format(getText(R.string.accuracy), decAccu)
-
         val keyboard_buttons = Array<Button>(20) { MaterialButton(requireContext()) }
 
-        binding.calcButton.setOnClickListener {
-            try {
-                var s = binding.eqForm.text.toString()
-                var i = 0
-                while (i < s.length) {
-                    if (s[i] == ' ') {
-                        s = s.removeRange(i, i)
-                        i--
-                    }
-                    i++
-                }
-                binding.resText.text = calc(s).toString()
-            } catch (e: Exception) {
-                Toast.makeText(context, getText(R.string.invalid_expression), Toast.LENGTH_SHORT).show()
-                binding.resText.text = getText(R.string.invalid_expression)
-            }
-        }
-        binding.accuracySlider.addOnChangeListener { slider, _, _ ->
-            decAccu = slider.value.toInt()
-            binding.sliderDesc.text = "%s%d".format(getText(R.string.accuracy), decAccu)
-        }
-        binding.modeSelect.setOnCheckedChangeListener { _, checkedId ->
-            when (checkedId) {
-                true -> {
-                    deg = true
-                    binding.modeSelect.text = getText(R.string.mode_deg)
-                }
-                false -> {
-                    deg = false
-                    binding.modeSelect.text = getText(R.string.mode_rad)
-                }
-            }
-        }
-
-        // Show/Hide Dedicated Keyboard
-        binding.keyboardButton.setOnClickListener {
-            if (binding.keyboardButton.text == getText(R.string.show_dedicated_keyboard)) {
-                binding.keyboardButton.text = getText(R.string.hide_dedicated_keyboard)
-                binding.keyboardGrid.alpha = 1.0f
-            } else {
-                binding.keyboardButton.text = getText(R.string.show_dedicated_keyboard)
-                binding.keyboardGrid.alpha = 0.0f
-            }
-        }
+        binding.accuracySlider.addOnChangeListener(accuracySliderListener())
+        binding.modeSelect.setOnCheckedChangeListener(modeSelectSwitchListener())
+        binding.calcButton.setOnClickListener(calcButtonListener())
+        binding.keyboardButton.setOnClickListener(dedicatedKeyboardButtonListener())
 
         // Keyboard upper 8 buttons
         binding.kbMc.setOnClickListener {
-            binding.kbMc.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY)
+            performHaptic(it)
             setM(0.0)
         }
         binding.kbMp.setOnClickListener {
-            binding.kbMp.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY)
+            performHaptic(it)
             try {
                 binding.calcButton.performClick()
                 setM(mem + binding.resText.text.toString().toDouble())
@@ -307,7 +266,7 @@ class FirstFragment : Fragment() {
             }
         }
         binding.kbMm.setOnClickListener {
-            binding.kbMm.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY)
+            performHaptic(it)
             try {
                 binding.calcButton.performClick()
                 setM(mem - binding.resText.text.toString().toDouble())
@@ -317,7 +276,7 @@ class FirstFragment : Fragment() {
             }
         }
         binding.kbMr.setOnClickListener {
-            binding.kbMr.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY)
+            performHaptic(it)
             val s = binding.eqForm.text.toString()
             val temp = binding.eqForm.selectionStart
             binding.eqForm.setText(s.substring(0 until binding.eqForm.selectionStart) + "M" + s.substring(binding.eqForm.selectionEnd))
@@ -325,12 +284,12 @@ class FirstFragment : Fragment() {
         }
         // func & cons listeners are after lower 20 buttons' code
         binding.kbC.setOnClickListener {
-            binding.kbC.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY)
+            performHaptic(it)
             binding.eqForm.setText("")
             binding.resText.text = ""
         }
         binding.kbBack.setOnClickListener {
-            binding.kbBack.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY)
+            performHaptic(it)
             val s = binding.eqForm.text.toString()
             val temp = binding.eqForm.selectionStart
             if (temp != 0) {
@@ -363,7 +322,7 @@ class FirstFragment : Fragment() {
             })
             kb.textSize = 20.0f
             kb.setOnClickListener {
-                kb.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY)
+                performHaptic(it)
                 val s = binding.eqForm.text.toString()
                 val temp = binding.eqForm.selectionStart
                 binding.eqForm.setText(s.substring(0 until binding.eqForm.selectionStart) +
@@ -391,7 +350,7 @@ class FirstFragment : Fragment() {
             "flo", "log", "cei"
         )
         binding.kbFunc.setOnClickListener {
-            binding.kbFunc.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY)
+            performHaptic(it)
             if (!funcMode) {
                 funcMode = true
                 binding.kbFunc.setBackgroundColor(Color.parseColor("#8800aa00"))
@@ -417,7 +376,7 @@ class FirstFragment : Fragment() {
 
         // const
         binding.kbConst.setOnClickListener {
-            binding.kbConst.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY)
+            performHaptic(it)
             if (!consMode) {
                 consMode = true
                 binding.kbConst.setBackgroundColor(Color.parseColor("#8800aa00"))
@@ -442,6 +401,72 @@ class FirstFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun performHaptic(view: View) {
+        view.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY)
+    }
+
+    private fun dedicatedKeyboardButtonListener(): View.OnClickListener {
+        return View.OnClickListener {
+            if (binding.keyboardButton.text == getText(R.string.show_dedicated_keyboard)) {
+                binding.keyboardButton.text = getText(R.string.hide_dedicated_keyboard)
+                binding.keyboardGrid.alpha = 1.0f
+            } else {
+                binding.keyboardButton.text = getText(R.string.show_dedicated_keyboard)
+                binding.keyboardGrid.alpha = 0.0f
+            }
+        }
+    }
+
+    private fun modeSelectSwitchListener(): CompoundButton.OnCheckedChangeListener {
+        return CompoundButton.OnCheckedChangeListener{ _, checkedId ->
+            when (checkedId) {
+                true -> {
+                    deg = true
+                    binding.modeSelect.text = getText(R.string.mode_deg)
+                }
+                false -> {
+                    deg = false
+                    binding.modeSelect.text = getText(R.string.mode_rad)
+                }
+            }
+        }
+    }
+
+    private fun accuracySliderListener(): Slider.OnChangeListener {
+        return Slider.OnChangeListener { slider, _, _ ->
+            decAccu = slider.value.toInt()
+            binding.sliderDesc.text = "%s%d".format(getText(R.string.accuracy), decAccu)
+        }
+    }
+
+    private fun calcButtonListener(): View.OnClickListener {
+        return View.OnClickListener {
+            var s = binding.eqForm.text.toString()
+            var i = 0
+            while (i < s.length) {
+                if (s[i] == ' ') {
+                    s = s.removeRange(i, i)
+                    i--
+                }
+                i++
+            }
+            tryCalculation(s)
+        }
+    }
+
+    private fun tryCalculation(s: String) {
+        try {
+            binding.resText.text = calc(s).toString()
+        } catch (e: Exception) {
+            showError(getText(R.string.invalid_expression).toString())
+        }
+    }
+
+    private fun showError(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+        binding.resText.text = message
     }
 
     private fun setM(m: Double) {
