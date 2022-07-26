@@ -45,14 +45,6 @@ class FirstFragment : Fragment() {
     var funcMode = false
     var consMode = false
 
-    val keyboard_buttons = Array<Button>(20) { MaterialButton(requireContext()) }
-    val keyboard_buttonTexts = "()^%123+456-789*,0./"
-    val funcMode_kbButtonTexts = arrayOf(
-        "sin", "cos", "tan",
-        "cot", "sqr", "abs",
-        "flo", "log", "cei"
-    )
-
     // CALC FUNCS
     private fun isFunc(eq: String, i: Int): Boolean {
         val funcs = arrayOf( "sqr", "sin", "cos", "tan", "cot", "abs", "cei", "flo" )
@@ -250,6 +242,14 @@ class FirstFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val keyboard_buttons = Array<Button>(20) { MaterialButton(requireContext()) }
+        val keyboard_buttonTexts = "()^%123+456-789*,0./"
+        val funcMode_kbButtonTexts = arrayOf(
+            "sin", "cos", "tan",
+            "cot", "sqr", "abs",
+            "flo", "log", "cei"
+        )
+
         binding.sliderDesc.text = "%s%d".format(getText(R.string.accuracy), decAccu)
         binding.accuracySlider.addOnChangeListener(accuracySliderListener())
         binding.modeSelect.setOnCheckedChangeListener(modeSelectSwitchListener())
@@ -263,10 +263,10 @@ class FirstFragment : Fragment() {
         binding.kbC.setOnClickListener(kbCListener())
         binding.kbBack.setOnClickListener(kbBackListener())
 
-        configureKbLower20Buttons()
+        configureKbLower20Buttons(keyboard_buttons, keyboard_buttonTexts)
 
-        binding.kbFunc.setOnClickListener(kbFuncButtonListener())
-        binding.kbConst.setOnClickListener(kbConsButtonListener())
+        binding.kbFunc.setOnClickListener(kbFuncButtonListener(keyboard_buttons, funcMode_kbButtonTexts, keyboard_buttonTexts))
+        binding.kbConst.setOnClickListener(kbConsButtonListener(keyboard_buttons, keyboard_buttonTexts))
     }
 
     private fun accuracySliderListener(): Slider.OnChangeListener {
@@ -376,7 +376,7 @@ class FirstFragment : Fragment() {
             }
         }
     }
-    private fun setKbButtonProperties(index: Int, kb: Button) {
+    private fun setKbButtonProperties(index: Int, kb: Button, keyboard_buttonTexts: String) {
         val keyboard_isOp = arrayOf(
             true, true, true, true,
             false, false, false, true,
@@ -415,14 +415,14 @@ class FirstFragment : Fragment() {
             }
         }
     }
-    private fun configureKbLower20Buttons() {
+    private fun configureKbLower20Buttons(keyboard_buttons: Array<Button>, keyboard_buttonTexts: String) {
         for ((i, kb) in keyboard_buttons.withIndex()) {
-            setKbButtonProperties(i, kb)
+            setKbButtonProperties(i, kb, keyboard_buttonTexts)
             kb.setOnClickListener(kbLower20ButtonClickListener(i, kb))
             binding.keyboardGrid.addView(kb)
         }
     }
-    private fun setFuncMode() {
+    private fun setFuncMode(keyboard_buttons: Array<Button>, funcMode_kbButtonTexts: Array<String>) {
         funcMode = true
         binding.kbFunc.setBackgroundColor(Color.parseColor("#8800aa00"))
         if (consMode) {
@@ -436,7 +436,7 @@ class FirstFragment : Fragment() {
             j++
         }
     }
-    private fun setConsMode() {
+    private fun setConsMode(keyboard_buttons: Array<Button>) {
         consMode = true
         binding.kbConst.setBackgroundColor(Color.parseColor("#8800aa00"))
         if (funcMode) {
@@ -452,7 +452,7 @@ class FirstFragment : Fragment() {
             kb.text = ""
         }
     }
-    private fun resetModes() {
+    private fun resetModes(keyboard_buttons: Array<Button>, keyboard_buttonTexts: String) {
         if (funcMode) {
             funcMode = false
             binding.kbFunc.setBackgroundColor(Color.parseColor("#1100aa00"))
@@ -469,23 +469,23 @@ class FirstFragment : Fragment() {
             }
         }
     }
-    private fun kbFuncButtonListener(): View.OnClickListener {
+    private fun kbFuncButtonListener(keyboard_buttons: Array<Button>, funcMode_kbButtonTexts: Array<String>, keyboard_buttonTexts: String): View.OnClickListener {
         return View.OnClickListener {
             performHaptic(it)
             if (!funcMode) {
-                setFuncMode()
+                setFuncMode(keyboard_buttons, funcMode_kbButtonTexts)
             } else {
-                resetModes()
+                resetModes(keyboard_buttons, keyboard_buttonTexts)
             }
         }
     }
-    private fun kbConsButtonListener(): View.OnClickListener {
+    private fun kbConsButtonListener(keyboard_buttons: Array<Button>, keyboard_buttonTexts: String): View.OnClickListener {
         return View.OnClickListener {
             performHaptic(it)
             if (!consMode) {
-                setConsMode()
+                setConsMode(keyboard_buttons)
             } else {
-                resetModes()
+                resetModes(keyboard_buttons, keyboard_buttonTexts)
             }
         }
     }
