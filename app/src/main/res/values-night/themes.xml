@@ -10,7 +10,7 @@
         <item name="colorSecondaryVariant">@color/design_default_color_secondary_variant</item>
         <item name="colorOnSecondary">@color/white</item>
         <!-- Status bar color. -->
-
+        <item name="actionBarForeground">#c1e8ff</item>
         <!-- For text input fields -->
         <item name="textInputStyle">@style/Widget.Material3.TextInputLayout.OutlinedBox</item>
         <!-- For switches -->
