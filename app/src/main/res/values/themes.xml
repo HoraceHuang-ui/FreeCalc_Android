@@ -10,7 +10,7 @@
         <item name="colorSecondaryVariant">@color/design_default_color_secondary_variant</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-
+        <item name="actionBarForeground">#001e2c</item>
         <!-- For text input fields -->
         <item name="textInputStyle">@style/Widget.Material3.TextInputLayout.OutlinedBox</item>
         <!-- For switches -->
@@ -20,6 +20,4 @@
         <!-- Customize your theme here. -->
         <item name="textFillColor">#66000000</item>
     </style>
-
-    <style name="Theme.FreeCalc_Material3Test" parent="Base.Theme.FreeCalc_Material3Test" />
 </resources>

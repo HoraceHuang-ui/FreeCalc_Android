@@ -148,7 +148,7 @@
                 <Button android:id="@+id/kb_func" android:text="func" android:textSize="18sp" android:layout_marginStart="6dp" android:backgroundTint="#1100aa00"/>
                 <Button android:id="@+id/kb_const" android:text="cons" android:textSize="18sp" android:layout_marginStart="6dp" android:backgroundTint="#1100aa00"/>
                 <Button android:id="@+id/kb_c" android:text="C" android:textSize="18sp" android:layout_marginStart="6dp" android:backgroundTint="#11aa0000"/>
-                <Button android:id="@+id/kb_back" android:text="Back" android:textSize="18sp" android:layout_marginStart="6dp" android:backgroundTint="#11aa0000"/>
+                <Button android:id="@+id/kb_back" android:text="←" android:textSize="18sp" android:layout_marginStart="6dp" android:backgroundTint="#11aa0000"/>
             </GridLayout>
 
             <Button
@@ -159,6 +159,7 @@
                 android:layout_marginBottom="12dp"
                 android:backgroundTint="#00000000"
                 android:text="@string/hide_dedicated_keyboard"
+                android:textColor="?attr/textFillColor"
                 app:layout_constraintTop_toBottomOf="@id/keyboard_grid"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
