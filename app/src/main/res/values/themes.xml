@@ -19,5 +19,6 @@
         <item name="buttonStyle">@style/Widget.Material3.Button.TextButton</item>
         <!-- Customize your theme here. -->
         <item name="textFillColor">#66000000</item>
+        <!--<item name="materialAlertDialogTheme">@style/MaterialAlertDialog.Material3</item>-->
     </style>
 </resources>
