@@ -5,6 +5,7 @@
       <map>
         <entry key="..\:/Users/huang/AndroidStudioProjects/FreeCalc_Material3Test/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.367" />
         <entry key="..\:/Users/huang/AndroidStudioProjects/FreeCalc_Material3Test/app/src/main/res/drawable/ic_dec_accu.xml" value="0.367" />
+        <entry key="..\:/Users/huang/AndroidStudioProjects/FreeCalc_Material3Test/app/src/main/res/drawable/ic_done.xml" value="0.3135" />
         <entry key="..\:/Users/huang/AndroidStudioProjects/FreeCalc_Material3Test/app/src/main/res/drawable/ic_launcher.xml" value="0.214" />
         <entry key="..\:/Users/huang/AndroidStudioProjects/FreeCalc_Material3Test/app/src/main/res/drawable/ic_launcher_background.xml" value="0.5435" />
         <entry key="..\:/Users/huang/AndroidStudioProjects/FreeCalc_Material3Test/app/src/main/res/drawable/ic_launcher_round.xml" value="0.214" />
@@ -12,11 +13,13 @@
         <entry key="..\:/Users/huang/AndroidStudioProjects/FreeCalc_Material3Test/app/src/main/res/drawable/ic_mode_select_outline.xml" value="0.367" />
         <entry key="..\:/Users/huang/AndroidStudioProjects/FreeCalc_Material3Test/app/src/main/res/drawable/ic_settings.xml" value="0.5435" />
         <entry key="..\:/Users/huang/AndroidStudioProjects/FreeCalc_Material3Test/app/src/main/res/layout/activity_main.xml" value="0.22" />
-        <entry key="..\:/Users/huang/AndroidStudioProjects/FreeCalc_Material3Test/app/src/main/res/layout/activity_settings.xml" value="0.409375" />
-        <entry key="..\:/Users/huang/AndroidStudioProjects/FreeCalc_Material3Test/app/src/main/res/layout/content_main.xml" value="0.5505208333333333" />
-        <entry key="..\:/Users/huang/AndroidStudioProjects/FreeCalc_Material3Test/app/src/main/res/layout/fragment_first.xml" value="0.2302810516772439" />
+        <entry key="..\:/Users/huang/AndroidStudioProjects/FreeCalc_Material3Test/app/src/main/res/layout/activity_settings.xml" value="0.22" />
+        <entry key="..\:/Users/huang/AndroidStudioProjects/FreeCalc_Material3Test/app/src/main/res/layout/content_main.xml" value="0.25925925925925924" />
+        <entry key="..\:/Users/huang/AndroidStudioProjects/FreeCalc_Material3Test/app/src/main/res/layout/fragment_first.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/huang/AndroidStudioProjects/FreeCalc_Material3Test/app/src/main/res/layout/fragment_second.xml" value="0.5505208333333333" />
-        <entry key="..\:/Users/huang/AndroidStudioProjects/FreeCalc_Material3Test/app/src/main/res/menu/menu_main.xml" value="0.55" />
+        <entry key="..\:/Users/huang/AndroidStudioProjects/FreeCalc_Material3Test/app/src/main/res/layout/switch_item.xml" value="0.4514749893116717" />
+        <entry key="..\:/Users/huang/AndroidStudioProjects/FreeCalc_Material3Test/app/src/main/res/menu/menu_main.xml" value="0.4466666666666667" />
+        <entry key="..\:/Users/huang/AndroidStudioProjects/FreeCalc_Material3Test/app/src/main/res/menu/menu_settings.xml" value="0.20906370243693886" />
         <entry key="..\:/Users/huang/AndroidStudioProjects/FreeCalc_Material3Test/app/src/main/res/menu/popup_menu.xml" value="0.5489583333333333" />
       </map>
     </option>

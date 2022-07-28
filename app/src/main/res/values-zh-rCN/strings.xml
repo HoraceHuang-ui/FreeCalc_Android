@@ -14,4 +14,5 @@
     <string name="invalid_expression">请确认表达式无误后重试。</string>
     <string name="show_dedicated_keyboard">显示键盘</string>
     <string name="mode_deg">角度制</string>
+    <string name="action_done">完成</string>
 </resources>

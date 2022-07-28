@@ -14,4 +14,5 @@
     <string name="invalid_expression">Invalid expression.</string>
     <string name="show_dedicated_keyboard">Show Dedicated Keyboard</string>
     <string name="mode_deg">Mode: DEG</string>
+    <string name="action_done">Done</string>
 </resources>
