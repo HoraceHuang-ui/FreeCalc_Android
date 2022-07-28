@@ -1,167 +1,210 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FirstFragment">
-    <androidx.constraintlayout.widget.ConstraintLayout
+    android:padding="16dp"
+    tools:context=".FirstFragment"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="16dp">
-
-        <com.google.android.material.textfield.TextInputLayout
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/eq_form_layout"
+        android:minHeight="48dp"
+        android:hint="@string/expression">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/eq_form"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            android:id="@+id/eq_form_layout"
-            android:minHeight="48dp"
-            android:hint="@string/expression">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/eq_form"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </com.google.android.material.textfield.TextInputLayout>
-        <TextView
-            android:id="@+id/mem_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            app:layout_constraintTop_toBottomOf="@id/eq_form_layout"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:text="Mem: 0"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="4dp"
-            />
+            android:layout_height="wrap_content"/>
+    </com.google.android.material.textfield.TextInputLayout>
+    <TextView
+        android:id="@+id/mem_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/eq_form_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Mem: 0"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="4dp"/>
 
-        <View
-            android:id="@+id/separator1"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#aac0c0c0"
-            android:layout_marginTop="32dp"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="12dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/mem_text"/>
+    <View
+        android:id="@+id/separator1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#aac0c0c0"
+        android:layout_marginTop="32dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/mem_text"/>
 
-        <ImageView
-            android:id="@+id/mode_select_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:importantForAccessibility="no"
-            app:layout_constraintBottom_toBottomOf="@id/mode_select"
-            app:layout_constraintEnd_toStartOf="@id/mode_select"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/mode_select"
-            app:srcCompat="@drawable/ic_mode_select_outline" />
+    <ImageView
+        android:id="@+id/mode_select_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:importantForAccessibility="no"
+        app:layout_constraintBottom_toBottomOf="@id/mode_select"
+        app:layout_constraintEnd_toStartOf="@id/mode_select"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/mode_select"
+        app:srcCompat="@drawable/ic_mode_select_outline" />
 
-        <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/mode_select"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:minHeight="48dp"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="32dp"
-            app:layout_constraintTop_toBottomOf="@id/separator1"
-            app:layout_constraintStart_toEndOf="@id/mode_select_icon"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:text="@string/mode_rad"/>
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/mode_select"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintTop_toBottomOf="@id/separator1"
+        app:layout_constraintStart_toEndOf="@id/mode_select_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="@string/mode_rad"/>
 
-        <ImageView
-            android:id="@+id/dec_accu_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:importantForAccessibility="no"
-            app:layout_constraintBottom_toBottomOf="@+id/accuracy_slider"
-            app:layout_constraintEnd_toStartOf="@+id/slider_desc"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/accuracy_slider"
-            app:srcCompat="@drawable/ic_dec_accu" />
+    <ImageView
+        android:id="@+id/dec_accu_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:importantForAccessibility="no"
+        app:layout_constraintBottom_toBottomOf="@+id/accuracy_slider"
+        app:layout_constraintEnd_toStartOf="@+id/slider_desc"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/accuracy_slider"
+        app:srcCompat="@drawable/ic_dec_accu" />
 
-        <TextView
-            android:id="@+id/slider_desc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/accuracy"
-            android:layout_marginStart="12dp"
-            app:layout_constraintBottom_toBottomOf="@id/accuracy_slider"
-            app:layout_constraintStart_toEndOf="@id/dec_accu_icon"
-            app:layout_constraintTop_toTopOf="@id/accuracy_slider" />
+    <TextView
+        android:id="@+id/slider_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/accuracy"
+        android:layout_marginStart="12dp"
+        app:layout_constraintBottom_toBottomOf="@id/accuracy_slider"
+        app:layout_constraintStart_toEndOf="@id/dec_accu_icon"
+        app:layout_constraintTop_toTopOf="@id/accuracy_slider" />
 
-        <com.google.android.material.slider.Slider
-            android:id="@+id/accuracy_slider"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:hapticFeedbackEnabled="true"
-            android:stepSize="1"
-            android:valueFrom="0"
-            android:valueTo="15"
-            android:value="5"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/slider_desc"
-            app:layout_constraintTop_toBottomOf="@id/mode_select"
-            app:tickVisible="false" />
+    <com.google.android.material.slider.Slider
+        android:id="@+id/accuracy_slider"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:hapticFeedbackEnabled="true"
+        android:stepSize="1"
+        android:valueFrom="0"
+        android:valueTo="15"
+        android:value="5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/slider_desc"
+        app:layout_constraintTop_toBottomOf="@id/mode_select"
+        app:tickVisible="false" />
+
+    <Button
+        android:id="@+id/calc_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/calculate"
+        app:layout_constraintTop_toBottomOf="@id/accuracy_slider"/>
+
+    <TextView
+        android:id="@+id/res_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textSize="32sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="Result: 0"
+        app:layout_constraintTop_toBottomOf="@+id/calc_button" />
+
+    <GridLayout
+        android:id="@+id/keyboard_grid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="4"
+        android:rowCount="7"
+        app:layout_constraintBottom_toTopOf="@id/keyboard_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <Button
-            android:id="@+id/calc_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="@string/calculate"
-            app:layout_constraintTop_toBottomOf="@id/accuracy_slider"/>
+            android:id="@+id/kb_mc"
+            android:layout_marginStart="5dp"
+            android:backgroundTint="#1100aa00"
+            android:text="MC"
+            android:textSize="20sp"
+            android:layout_columnWeight="1"/>
 
-        <TextView
-            android:id="@+id/res_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:textSize="32sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:text="Result: 0"
-            app:layout_constraintTop_toBottomOf="@+id/calc_button" />
+        <Button
+            android:id="@+id/kb_mp"
+            android:layout_marginStart="5dp"
+            android:backgroundTint="#1100aa00"
+            android:text="M+"
+            android:textSize="20sp"
+            android:layout_columnWeight="1"/>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/res_text">
+        <Button
+            android:id="@+id/kb_mm"
+            android:layout_marginStart="5dp"
+            android:backgroundTint="#1100aa00"
+            android:text="M-"
+            android:textSize="20sp"
+            android:layout_columnWeight="1"/>
 
-            <GridLayout
-                android:id="@+id/keyboard_grid"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|center"
-                android:layout_marginTop="20dp"
-                android:rowCount="7"
-                android:columnCount="4"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
-                <Button android:id="@+id/kb_mc" android:text="MC" android:textSize="20sp" android:layout_marginStart="6dp" android:backgroundTint="#1100aa00"/>
-                <Button android:id="@+id/kb_mp" android:text="M+" android:textSize="20sp" android:layout_marginStart="6dp" android:backgroundTint="#1100aa00"/>
-                <Button android:id="@+id/kb_mm" android:text="M-" android:textSize="20sp" android:layout_marginStart="6dp" android:backgroundTint="#1100aa00"/>
-                <Button android:id="@+id/kb_mr" android:text="MR" android:textSize="18sp" android:layout_marginStart="6dp" android:backgroundTint="#1100aa00"/>
-                <Button android:id="@+id/kb_func" android:text="func" android:textSize="18sp" android:layout_marginStart="6dp" android:backgroundTint="#1100aa00"/>
-                <Button android:id="@+id/kb_const" android:text="cons" android:textSize="18sp" android:layout_marginStart="6dp" android:backgroundTint="#1100aa00"/>
-                <Button android:id="@+id/kb_c" android:text="C" android:textSize="18sp" android:layout_marginStart="6dp" android:backgroundTint="#11aa0000"/>
-                <Button android:id="@+id/kb_back" android:text="←" android:textSize="18sp" android:layout_marginStart="6dp" android:backgroundTint="#11aa0000"/>
-            </GridLayout>
+        <Button
+            android:id="@+id/kb_mr"
+            android:layout_marginStart="5dp"
+            android:backgroundTint="#1100aa00"
+            android:text="MR"
+            android:textSize="18sp"
+            android:layout_columnWeight="1"/>
 
-            <Button
-                android:id="@+id/keyboard_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|center"
-                android:layout_marginBottom="12dp"
-                android:backgroundTint="#00000000"
-                android:text="@string/hide_dedicated_keyboard"
-                android:textColor="?attr/textFillColor"
-                app:layout_constraintTop_toBottomOf="@id/keyboard_grid"
-                />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.core.widget.NestedScrollView>
+        <Button
+            android:id="@+id/kb_func"
+            android:layout_marginStart="5dp"
+            android:backgroundTint="#1100aa00"
+            android:text="func"
+            android:textSize="18sp"
+            android:layout_columnWeight="1"/>
+
+        <Button
+            android:id="@+id/kb_const"
+            android:layout_marginStart="5dp"
+            android:backgroundTint="#1100aa00"
+            android:text="cons"
+            android:textSize="18sp"
+            android:layout_columnWeight="1"/>
+
+        <Button
+            android:id="@+id/kb_c"
+            android:layout_marginStart="5dp"
+            android:backgroundTint="#11aa0000"
+            android:text="C"
+            android:textSize="18sp"
+            android:layout_columnWeight="1"/>
+
+        <Button
+            android:id="@+id/kb_back"
+            android:layout_marginStart="5dp"
+            android:backgroundTint="#11aa0000"
+            android:text="←"
+            android:textSize="18sp"
+            android:layout_columnWeight="1"/>
+    </GridLayout>
+
+    <Button
+        android:id="@+id/keyboard_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:backgroundTint="#00000000"
+        android:text="@string/hide_dedicated_keyboard"
+        android:textColor="?attr/textFillColor"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>

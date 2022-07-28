@@ -1,5 +1,7 @@
 package com.example.freecalc_material3test
 
+import android.content.Context
+import android.content.res.Resources
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,8 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CompoundButton
+import android.widget.GridLayout
 import android.widget.Toast
+import androidx.core.view.marginLeft
+import androidx.core.view.marginStart
+import androidx.core.view.setMargins
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider.NewInstanceFactory.Companion.instance
 import com.example.freecalc_material3test.databinding.FragmentFirstBinding
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.slider.Slider
@@ -377,6 +384,11 @@ class FirstFragment : Fragment() {
         }
     }
     private fun setKbButtonProperties(index: Int, kb: Button, keyboard_buttonTexts: String) {
+        val param = GridLayout.LayoutParams(
+            GridLayout.spec(GridLayout.UNDEFINED, GridLayout.FILL, 1f),
+            GridLayout.spec(GridLayout.UNDEFINED, GridLayout.FILL, 1f))
+        param.marginStart = dp2px(5)
+        kb.layoutParams = param
         val keyboard_isOp = arrayOf(
             true, true, true, true,
             false, false, false, true,
@@ -394,6 +406,11 @@ class FirstFragment : Fragment() {
         })
         kb.textSize = 20.0f
     }
+
+    private fun dp2px(dp: Int): Int {
+        return (Resources.getSystem().displayMetrics.density * dp + 0.5f).toInt()
+    }
+
     private fun kbLower20ButtonClickListener(i: Int, kb: Button): View.OnClickListener {
         return View.OnClickListener {
             performHaptic(it)
