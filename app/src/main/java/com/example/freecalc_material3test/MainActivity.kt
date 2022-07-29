@@ -62,29 +62,6 @@ class MainActivity : AppCompatActivity() {
         // {
         //     ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.MANAGE_EXTERNAL_STORAGE), 101)
         // }
-    }
-
-    override fun onStart() {
-        super.onStart()
-
-        // val file = File("/settings.txt")
-        // if (!file.exists()) {
-        //     file.createNewFile()
-        // }
-        // var settings = file.readLines()
-        // if (settings.isEmpty()) {
-        //     writeLocal(file)
-        // } else {
-        //     deg = settings[0].toBoolean()
-        //     decAccu = settings[1].toInt()
-        //     when (deg) {
-        //         true -> binding.toolbar[0].isSelected = true
-        //         false -> binding.toolbar[1].isSelected = true
-        //     }
-        // }
-        // binding.toolbar[2].setOnClickListener({
-        //     showError("aaaaa")
-        // })
 
         val keyboard_buttons = Array<Button>(20) { MaterialButton(this) }
         val keyboard_buttonTexts = "()^%123+456-789*,0./"
@@ -108,6 +85,29 @@ class MainActivity : AppCompatActivity() {
 
         binding.kbFunc.setOnClickListener(kbFuncButtonListener(keyboard_buttons, funcMode_kbButtonTexts, keyboard_buttonTexts))
         binding.kbConst.setOnClickListener(kbConsButtonListener(keyboard_buttons, keyboard_buttonTexts))
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        // val file = File("/settings.txt")
+        // if (!file.exists()) {
+        //     file.createNewFile()
+        // }
+        // var settings = file.readLines()
+        // if (settings.isEmpty()) {
+        //     writeLocal(file)
+        // } else {
+        //     deg = settings[0].toBoolean()
+        //     decAccu = settings[1].toInt()
+        //     when (deg) {
+        //         true -> binding.toolbar[0].isSelected = true
+        //         false -> binding.toolbar[1].isSelected = true
+        //     }
+        // }
+        // binding.toolbar[2].setOnClickListener({
+        //     showError("aaaaa")
+        // })
     }
 
     // override fun onRequestPermissionsResult(requestCode: Int,
