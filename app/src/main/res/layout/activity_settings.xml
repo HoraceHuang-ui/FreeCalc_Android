@@ -48,7 +48,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@id/mode_select_icon"
             app:layout_constraintEnd_toEndOf="parent"
-            android:text="@string/mode_rad"/>
+            android:text="@string/menu_item_rad"/>
 
         <ImageView
             android:id="@+id/dec_accu_icon"

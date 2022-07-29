@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.CompoundButton
 import androidx.appcompat.app.AppCompatActivity
 import com.example.freecalc_material3test.databinding.ActivitySettingsBinding
@@ -33,10 +32,10 @@ class SettingsActivity : AppCompatActivity() {
             binding.accuracySlider.value = decAccu.toFloat()
             binding.modeSelect.text = when (binding.modeSelect.isChecked) {
                 true -> {
-                    getText(R.string.mode_deg)
+                    getText(R.string.menu_item_deg)
                 }
                 false -> {
-                    getText(R.string.mode_rad)
+                    getText(R.string.menu_item_rad)
                 }
             }
             binding.sliderDesc.text = "%s%d".format(getText(R.string.accuracy), decAccu)
@@ -91,11 +90,11 @@ class SettingsActivity : AppCompatActivity() {
             when (checkedId) {
                 true -> {
                     deg = true
-                    binding.modeSelect.text = getText(R.string.mode_deg)
+                    binding.modeSelect.text = getText(R.string.menu_item_deg)
                 }
                 false -> {
                     deg = false
-                    binding.modeSelect.text = getText(R.string.mode_rad)
+                    binding.modeSelect.text = getText(R.string.menu_item_rad)
                 }
             }
         }

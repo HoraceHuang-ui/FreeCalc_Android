@@ -1,24 +1,23 @@
 package com.example.freecalc_material3test
 
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Color
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.GridLayout
 import android.widget.Toast
-import androidx.activity.ComponentDialog
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.navigation.ui.AppBarConfiguration
 import com.example.freecalc_material3test.databinding.ActivityMainBinding
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.slider.Slider
 import java.util.*
 import kotlin.math.*
 
@@ -45,7 +44,11 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setSupportActionBar(binding.toolbar)
+        // TODO: Implement a FreeCalc logo on toolbar
+        var actionBar = binding.toolbar
+        // actionBar.setLogo(R.drawable.ic_toolbar_logo_xml)
+        actionBar.setTitle(R.string.first_fragment_label)
+        setSupportActionBar(actionBar)
 
         // if (intent.hasExtra("settingBundle")) {
         //     val deg = intent?.extras?.getBundle("settingsBundle")?.getBoolean("degMode")!!
@@ -552,6 +555,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
+
         return true
     }
 
@@ -564,10 +568,12 @@ class MainActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.action_deg_mode -> {
                 deg = true
+                binding.resText.text = getString(R.string.deg_item_return_msg)
                 true
             }
             R.id.action_rad_mode -> {
                 deg = false
+                binding.resText.text = getString(R.string.rad_item_return_msg)
                 true
             }
             R.id.action_accuracy_dialog -> {
@@ -577,11 +583,22 @@ class MainActivity : AppCompatActivity() {
                 // dialog.setCancelable(true)
                 // dialog.setNegativeButton("Cancel") { it, _ -> it.dismiss()}
                 // dialog.show()
+                var customAlertDialogView = LayoutInflater.from(this).inflate(R.layout.fragment_accuracy_dialog, null, false)
                 MaterialAlertDialogBuilder(this)
-                    .setTitle("Decimal Accuracy")
-                    .setPositiveButton("OK") { it, _ -> it.dismiss() }
-                    .setNegativeButton("Cancel") { it, _ -> it.dismiss()}
-                    .setMessage("但是这里怎么加滑动条这种控件？？？")
+                    .setView(customAlertDialogView)
+                    .setIcon(R.drawable.ic_dec_accu_new)
+                    .setTitle(getString(R.string.dec_accu_dialog_title))
+                    .setPositiveButton(getString(R.string.dialog_button_ok)) { it, _ ->
+                        decAccu = customAlertDialogView.findViewById<Slider>(R.id.accuracy_slider).value.toInt()
+                        binding.resText.text = getString(R.string.dec_accu_dialog_save_return_msg).format(decAccu)
+                        Toast.makeText(this, getString(R.string.toast_msg_saved), Toast.LENGTH_SHORT).show()
+                        it.dismiss()
+                    }
+                    .setNegativeButton(getString(R.string.dialog_button_cancel)) { it, _ ->
+                        Toast.makeText(this, getString(R.string.toast_msg_cancelled), Toast.LENGTH_SHORT).show()
+                        it.dismiss()
+                    }
+                    .setMessage(getString(R.string.dec_accu_dialog_msg).format(decAccu))
                     .show()
                 true
             }
