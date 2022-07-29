@@ -1,19 +1,18 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/action_rad_mode"
             android:checked="true"
-            android:title="RAD" />
+            android:title="@string/menu_item_rad" />
 
         <item
             android:id="@+id/action_deg_mode"
-            android:title="DEG" />
+            android:title="@string/menu_item_deg" />
     </group>
 
     <item android:id="@+id/action_accuracy_dialog"
-        android:title="Accuracy"/>
+        android:title="@string/menu_item_accuracy"/>
 
     <item android:id="@+id/action_about"
-        android:title="About"/>
+        android:title="@string/menu_item_about"/>
 </menu>

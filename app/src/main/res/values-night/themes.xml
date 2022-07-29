@@ -20,5 +20,7 @@
         <!-- Grayed out text color. -->
         <item name="textFillColor">#66FFFFFF</item>
         <!-- Customize your theme here. -->
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.Material3.MaterialAlertDialog.Centered</item>
+
     </style>
 </resources>
