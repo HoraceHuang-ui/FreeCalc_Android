@@ -10,8 +10,8 @@ android {
         applicationId "com.example.freecalc_material3test"
         minSdk 26
         targetSdk 32
-        versionCode 1
-        versionName "1.0.1-beta"
+        versionCode 4
+        versionName "1.0.8-beta"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

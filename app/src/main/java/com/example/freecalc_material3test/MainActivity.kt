@@ -584,6 +584,7 @@ class MainActivity : AppCompatActivity() {
                 // dialog.setNegativeButton("Cancel") { it, _ -> it.dismiss()}
                 // dialog.show()
                 var customAlertDialogView = LayoutInflater.from(this).inflate(R.layout.fragment_accuracy_dialog, null, false)
+                customAlertDialogView.findViewById<Slider>(R.id.accuracy_slider).value = decAccu.toFloat()
                 MaterialAlertDialogBuilder(this)
                     .setView(customAlertDialogView)
                     .setIcon(R.drawable.ic_dec_accu_new)
