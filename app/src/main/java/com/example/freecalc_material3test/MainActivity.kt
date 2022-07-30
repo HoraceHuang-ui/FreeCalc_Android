@@ -12,7 +12,13 @@ import android.widget.Button
 import android.widget.GridLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
+import androidx.core.view.children
+import androidx.core.view.marginStart
 import androidx.navigation.ui.AppBarConfiguration
 import com.example.freecalc_material3test.databinding.ActivityMainBinding
 import com.google.android.material.button.MaterialButton
@@ -413,7 +419,7 @@ class MainActivity : AppCompatActivity() {
         val param = GridLayout.LayoutParams(
             GridLayout.spec(GridLayout.UNDEFINED, GridLayout.FILL, 1f),
             GridLayout.spec(GridLayout.UNDEFINED, GridLayout.FILL, 1f))
-        param.marginStart = dp2px(5)
+        param.marginStart = binding.kbC.marginStart
         kb.layoutParams = param
         val keyboard_isOp = arrayOf(
             true, true, true, true,
@@ -430,11 +436,11 @@ class MainActivity : AppCompatActivity() {
             true -> 285212842
             false -> 285239039
         })
-        kb.textSize = 20.0f
+        kb.textSize = px2sp(binding.kbC.textSize)
     }
 
-    private fun dp2px(dp: Int): Int {
-        return (Resources.getSystem().displayMetrics.density * dp + 0.5f).toInt()
+    private fun px2sp(px: Float): Float {
+        return px / Resources.getSystem().displayMetrics.scaledDensity
     }
 
     private fun kbLower20ButtonClickListener(i: Int, kb: Button): View.OnClickListener {
@@ -555,7 +561,14 @@ class MainActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
 
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        when (deg) {
+            true -> menu.findItem(R.id.action_deg_mode).isChecked = true
+            false -> menu.findItem(R.id.action_rad_mode).isChecked = true
+        }
         return true
     }
 
@@ -564,14 +577,16 @@ class MainActivity : AppCompatActivity() {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
 
-        // TODO: implement action bar menu actions
+        // TODO: Item selection change on tap
         return when (item.itemId) {
             R.id.action_deg_mode -> {
+                item.isChecked = true
                 deg = true
                 binding.resText.text = getString(R.string.deg_item_return_msg)
                 true
             }
             R.id.action_rad_mode -> {
+                item.isChecked = true
                 deg = false
                 binding.resText.text = getString(R.string.rad_item_return_msg)
                 true
@@ -583,7 +598,7 @@ class MainActivity : AppCompatActivity() {
                 // dialog.setCancelable(true)
                 // dialog.setNegativeButton("Cancel") { it, _ -> it.dismiss()}
                 // dialog.show()
-                var customAlertDialogView = LayoutInflater.from(this).inflate(R.layout.fragment_accuracy_dialog, null, false)
+                val customAlertDialogView = LayoutInflater.from(this).inflate(R.layout.fragment_accuracy_dialog, null, false)
                 customAlertDialogView.findViewById<Slider>(R.id.accuracy_slider).value = decAccu.toFloat()
                 MaterialAlertDialogBuilder(this)
                     .setView(customAlertDialogView)
