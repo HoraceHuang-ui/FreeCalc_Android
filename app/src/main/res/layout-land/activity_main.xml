@@ -94,80 +94,85 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/left_panel">
 
-        <GridLayout
-            android:id="@+id/keyboard_grid"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:columnCount="4"
-            android:rowCount="8"
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             app:layout_constraintBottom_toTopOf="@id/keyboard_button"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
-            <Button
-                android:id="@+id/kb_mc"
-                android:layout_marginStart="@dimen/keyboard_button_margin"
-                android:backgroundTint="#1100aa00"
-                android:text="MC"
-                android:textSize="@dimen/keyboard_button_text"
-                android:layout_columnWeight="1"/>
+            <GridLayout
+                android:id="@+id/keyboard_grid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:columnCount="4"
+                android:rowCount="8">
 
-            <Button
-                android:id="@+id/kb_mp"
-                android:layout_marginStart="@dimen/keyboard_button_margin"
-                android:backgroundTint="#1100aa00"
-                android:text="M+"
-                android:textSize="@dimen/keyboard_button_text"
-                android:layout_columnWeight="1"/>
+                <Button
+                    android:id="@+id/kb_mc"
+                    android:layout_marginStart="@dimen/keyboard_button_margin"
+                    android:backgroundTint="#1100aa00"
+                    android:text="MC"
+                    android:textSize="@dimen/keyboard_button_text"
+                    android:layout_columnWeight="1"/>
 
-            <Button
-                android:id="@+id/kb_mm"
-                android:layout_marginStart="@dimen/keyboard_button_margin"
-                android:backgroundTint="#1100aa00"
-                android:text="M-"
-                android:textSize="@dimen/keyboard_button_text"
-                android:layout_columnWeight="1"/>
+                <Button
+                    android:id="@+id/kb_mp"
+                    android:layout_marginStart="@dimen/keyboard_button_margin"
+                    android:backgroundTint="#1100aa00"
+                    android:text="M+"
+                    android:textSize="@dimen/keyboard_button_text"
+                    android:layout_columnWeight="1"/>
 
-            <Button
-                android:id="@+id/kb_mr"
-                android:layout_marginStart="@dimen/keyboard_button_margin"
-                android:backgroundTint="#1100aa00"
-                android:text="MR"
-                android:textSize="@dimen/keyboard_button_text"
-                android:layout_columnWeight="1"/>
+                <Button
+                    android:id="@+id/kb_mm"
+                    android:layout_marginStart="@dimen/keyboard_button_margin"
+                    android:backgroundTint="#1100aa00"
+                    android:text="M-"
+                    android:textSize="@dimen/keyboard_button_text"
+                    android:layout_columnWeight="1"/>
 
-            <Button
-                android:id="@+id/kb_func"
-                android:layout_marginStart="@dimen/keyboard_button_margin"
-                android:backgroundTint="#1100aa00"
-                android:text="func"
-                android:textSize="@dimen/keyboard_button_text"
-                android:layout_columnWeight="1"/>
+                <Button
+                    android:id="@+id/kb_mr"
+                    android:layout_marginStart="@dimen/keyboard_button_margin"
+                    android:backgroundTint="#1100aa00"
+                    android:text="MR"
+                    android:textSize="@dimen/keyboard_button_text"
+                    android:layout_columnWeight="1"/>
 
-            <Button
-                android:id="@+id/kb_const"
-                android:layout_marginStart="@dimen/keyboard_button_margin"
-                android:backgroundTint="#1100aa00"
-                android:text="cons"
-                android:textSize="@dimen/keyboard_button_text"
-                android:layout_columnWeight="1"/>
+                <Button
+                    android:id="@+id/kb_func"
+                    android:layout_marginStart="@dimen/keyboard_button_margin"
+                    android:backgroundTint="#1100aa00"
+                    android:text="func"
+                    android:textSize="@dimen/keyboard_button_text"
+                    android:layout_columnWeight="1"/>
 
-            <Button
-                android:id="@+id/kb_c"
-                android:layout_marginStart="@dimen/keyboard_button_margin"
-                android:backgroundTint="#11aa0000"
-                android:text="C"
-                android:textSize="@dimen/keyboard_button_text"
-                android:layout_columnWeight="1"/>
+                <Button
+                    android:id="@+id/kb_const"
+                    android:layout_marginStart="@dimen/keyboard_button_margin"
+                    android:backgroundTint="#1100aa00"
+                    android:text="cons"
+                    android:textSize="@dimen/keyboard_button_text"
+                    android:layout_columnWeight="1"/>
 
-            <Button
-                android:id="@+id/kb_back"
-                android:layout_marginStart="@dimen/keyboard_button_margin"
-                android:backgroundTint="#11aa0000"
-                android:text="←"
-                android:textSize="@dimen/keyboard_button_text"
-                android:layout_columnWeight="1"/>
-        </GridLayout>
+                <Button
+                    android:id="@+id/kb_c"
+                    android:layout_marginStart="@dimen/keyboard_button_margin"
+                    android:backgroundTint="#11aa0000"
+                    android:text="C"
+                    android:textSize="@dimen/keyboard_button_text"
+                    android:layout_columnWeight="1"/>
+
+                <Button
+                    android:id="@+id/kb_back"
+                    android:layout_marginStart="@dimen/keyboard_button_margin"
+                    android:backgroundTint="#11aa0000"
+                    android:text="←"
+                    android:textSize="@dimen/keyboard_button_text"
+                    android:layout_columnWeight="1"/>
+            </GridLayout>
+        </ScrollView>
 
         <Button
             android:id="@+id/keyboard_button"
@@ -176,7 +181,7 @@
             android:backgroundTint="#00000000"
             android:text="@string/hide_dedicated_keyboard"
             android:textColor="?attr/textFillColor"
-            android:layout_marginBottom="@dimen/dedicated_button_margin"
+            android:layout_marginBottom="@dimen/keyboard_button_land_bottom_margin"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
