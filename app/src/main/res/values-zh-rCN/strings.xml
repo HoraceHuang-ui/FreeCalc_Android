@@ -26,4 +26,6 @@
     <string name="dec_accu_dialog_save_return_msg">小数位数已设为 %d。</string>
     <string name="rad_item_return_msg">已设为弧度制。</string>
     <string name="deg_item_return_msg">已设为角度制。</string>
+    <string name="about_freecalc">关于自由计算器</string>
+    <string name="made_by_horace">HoraceHYY 出品</string>
 </resources>

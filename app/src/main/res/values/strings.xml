@@ -26,4 +26,6 @@
     <string name="dec_accu_dialog_save_return_msg">Accuracy set to %d.</string>
     <string name="rad_item_return_msg">Now in Radian mode.</string>
     <string name="deg_item_return_msg">Now in Degree mode.</string>
+    <string name="about_freecalc">About FreeCalc</string>
+    <string name="made_by_horace">Made by Horace Huang</string>
 </resources>

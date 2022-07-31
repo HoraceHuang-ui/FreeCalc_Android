@@ -618,10 +618,12 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.action_about -> {
+                val customAlertDialogView = LayoutInflater.from(this).inflate(R.layout.fragment_about_dialog, null, false)
                 MaterialAlertDialogBuilder(this)
+                    .setView(customAlertDialogView)
                     .setIcon(R.drawable.ic_about)
-                    .setTitle("About FreeCalc")
-                    .setMessage("Made by Horace Huang.\nGitHub: Horacehuang-ui/freecalc_android")
+                    .setTitle(getString(R.string.about_freecalc))
+                    .setMessage(getString(R.string.made_by_horace))
                     .setPositiveButton(getString(R.string.dialog_button_ok)) { it, _ ->
                         it.dismiss()
                     }
