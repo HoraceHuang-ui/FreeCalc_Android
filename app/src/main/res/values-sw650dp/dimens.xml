@@ -4,4 +4,5 @@
     <dimen name="keyboard_button_margin">8dp</dimen>
     <dimen name="keyboard_button_text">20dp</dimen>
     <dimen name="dedicated_button_margin">12dp</dimen>
+    <dimen name="land_min_width">600dp</dimen>
 </resources>
