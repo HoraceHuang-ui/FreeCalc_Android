@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="fab_margin">16dp</dimen>
-    <dimen name="keyboard_button_margin">6dp</dimen>
+    <dimen name="keyboard_button_margin">12dp</dimen>
     <dimen name="keyboard_button_text">18dp</dimen>
+    <dimen name="dedicated_button_margin">4dp</dimen>
 </resources>

@@ -1,5 +1,0 @@
-<resources>
-    <dimen name="fab_margin">200dp</dimen>
-    <dimen name="keyboard_button_margin">18dp</dimen>
-    <dimen name="keyboard_button_text">18dp</dimen>
-</resources>
