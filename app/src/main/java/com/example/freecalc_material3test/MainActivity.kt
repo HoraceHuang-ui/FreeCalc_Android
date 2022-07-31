@@ -577,7 +577,6 @@ class MainActivity : AppCompatActivity() {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
 
-        // TODO: Item selection change on tap
         return when (item.itemId) {
             R.id.action_deg_mode -> {
                 item.isChecked = true
@@ -619,9 +618,14 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.action_about -> {
-                val intent = Intent(this, SettingsActivity::class.java)
-                this.startActivity(intent)
-                this.finish()
+                MaterialAlertDialogBuilder(this)
+                    .setIcon(R.drawable.ic_about)
+                    .setTitle("About FreeCalc")
+                    .setMessage("Made by Horace Huang.\nGitHub: Horacehuang-ui/freecalc_android")
+                    .setPositiveButton(getString(R.string.dialog_button_ok)) { it, _ ->
+                        it.dismiss()
+                    }
+                    .show()
                 true
             }
             else -> super.onOptionsItemSelected(item)

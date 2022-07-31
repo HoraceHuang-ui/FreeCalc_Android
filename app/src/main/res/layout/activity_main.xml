@@ -67,6 +67,7 @@
             android:layout_height="wrap_content"
             android:text="@string/calculate"
             android:layout_marginBottom="20dp"
+            android:textColor="?attr/calcButtonFontColor"
             app:layout_constraintBottom_toTopOf="@id/keyboard_grid"/>
 
         <GridLayout
@@ -159,12 +160,12 @@
             android:id="@+id/keyboard_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
             android:backgroundTint="#00000000"
             android:text="@string/hide_dedicated_keyboard"
             android:textColor="?attr/textFillColor"
+            android:layout_marginBottom="@dimen/dedicated_button_margin"
             app:layout_constraintBottom_toBottomOf="parent"
-            />
+            tools:layout_editor_absoluteX="16dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

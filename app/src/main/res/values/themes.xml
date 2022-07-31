@@ -5,6 +5,7 @@
         <item name="colorPrimary">#4bb6e8</item>
         <item name="colorPrimaryVariant">@color/design_default_color_primary_variant</item>
         <item name="colorOnPrimary">#001e2c</item>
+        <item name="calcButtonFontColor">#001e2c</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">#9aaebb</item>
         <item name="colorSecondaryVariant">@color/design_default_color_secondary_variant</item>
