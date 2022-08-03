@@ -21,5 +21,12 @@
         <!-- Customize your theme here. -->
         <item name="textFillColor">#66000000</item>
         <item name="materialAlertDialogTheme">@style/ThemeOverlay.Material3.MaterialAlertDialog.Centered</item>
+        <item name="outlinedFillColor">@color/white</item>
+    </style>
+
+    <style name="buttonShape">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+        <item name="strokeColor">?attr/colorPrimary</item>
     </style>
 </resources>

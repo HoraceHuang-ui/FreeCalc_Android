@@ -19,9 +19,17 @@
         <!-- For switches -->
         <item name="switchStyle">@style/Widget.Material3.CompoundButton.Switch</item>
         <!-- For buttons -->
-        <item name="buttonStyle">@style/Widget.Material3.Button.TextButton</item>
+        <item name="buttonStyle">@style/Widget.AppCompat.Button</item>
         <!-- Customize your theme here. -->
         <item name="textFillColor">#66000000</item>
         <item name="materialAlertDialogTheme">@style/ThemeOverlay.Material3.MaterialAlertDialog.Centered</item>
+        <item name="outlinedFillColor">@color/white</item>
+    </style>
+
+    <style name="buttonShape">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+        <item name="strokeColor">?attr/colorPrimary</item>
+        <item name="backgroundTint">@color/white</item>
     </style>
 </resources>

@@ -65,13 +65,6 @@ class MainActivity : AppCompatActivity() {
         // appBarConfiguration = AppBarConfiguration(navController.graph)
         // setupActionBarWithNavController(navController, appBarConfiguration)
 
-        // TODO: Request file permissions and read / write settings
-        // while (ContextCompat.checkSelfPermission(this, Manifest.permission.MANAGE_EXTERNAL_STORAGE)
-        //     != PackageManager.PERMISSION_GRANTED )
-        // {
-        //     ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.MANAGE_EXTERNAL_STORAGE), 101)
-        // }
-
         val keyboard_buttons = Array<Button>(20) { MaterialButton(this) }
         val keyboard_buttonTexts = "()^%123+456-789*,0./"
         val funcMode_kbButtonTexts = arrayOf(

@@ -3,4 +3,5 @@
     <attr name="actionBarForeground" format="color" />
     <attr name="customFillColor" format="color" />
     <attr name="calcButtonFontColor" format="color" />
+    <attr name="outlinedFillColor" format="color" />
 </resources>
