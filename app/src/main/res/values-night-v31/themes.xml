@@ -24,5 +24,6 @@
         <!-- Customize your theme here. -->
         <item name="textFillColor">#66FFFFFF</item>
         <item name="materialAlertDialogTheme">@style/ThemeOverlay.Material3.MaterialAlertDialog.Centered</item>
+        <item name="outlinedFillColor">@color/black</item>
     </style>
 </resources>
