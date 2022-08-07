@@ -1,4 +1,4 @@
-package com.example.freecalc_material3test
+package com.example.freecalc
 
 import org.junit.Test
 

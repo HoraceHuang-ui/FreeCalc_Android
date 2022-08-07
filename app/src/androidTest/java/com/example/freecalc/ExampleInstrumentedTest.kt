@@ -1,4 +1,4 @@
-package com.example.freecalc_material3test
+package com.example.freecalc
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
