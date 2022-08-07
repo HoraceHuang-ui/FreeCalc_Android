@@ -1,6 +1,5 @@
-package com.example.freecalc_material3test
+package com.example.freecalc
 
-import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Color
 import android.os.Bundle
@@ -12,25 +11,19 @@ import android.widget.Button
 import android.widget.GridLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
-import androidx.core.view.children
 import androidx.core.view.marginStart
-import androidx.navigation.ui.AppBarConfiguration
-import com.example.freecalc_material3test.databinding.ActivityMainBinding
+import com.example.freecalc.databinding.ActivityMainBinding
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.slider.Slider
+import java.io.File
 import java.util.*
 import kotlin.math.*
 
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
 
     // CALC VALUES
@@ -42,6 +35,9 @@ class MainActivity : AppCompatActivity() {
     var funcMode = false
     var consMode = false
 
+    // LOCAL SETTINGS
+    lateinit var file: File
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -50,8 +46,18 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        file = File(this.filesDir, "settings")
+        if (file.exists()) {
+            val settingsStr = file.readLines()
+            deg = settingsStr[0] == "deg"
+            decAccu = settingsStr[1].toInt()
+        } else {
+            file.createNewFile()
+            file.writeText("deg\n5")
+        }
+
         // TODO: Implement a FreeCalc logo on toolbar
-        var actionBar = binding.toolbar
+        val actionBar = binding.toolbar
         // actionBar.setLogo(R.drawable.ic_toolbar_logo_xml)
         actionBar.setTitle(R.string.first_fragment_label)
         setSupportActionBar(actionBar)
@@ -88,46 +94,6 @@ class MainActivity : AppCompatActivity() {
         binding.kbFunc.setOnClickListener(kbFuncButtonListener(keyboard_buttons, funcMode_kbButtonTexts, keyboard_buttonTexts))
         binding.kbConst.setOnClickListener(kbConsButtonListener(keyboard_buttons, keyboard_buttonTexts))
     }
-
-    override fun onStart() {
-        super.onStart()
-
-        // val file = File("/settings.txt")
-        // if (!file.exists()) {
-        //     file.createNewFile()
-        // }
-        // var settings = file.readLines()
-        // if (settings.isEmpty()) {
-        //     writeLocal(file)
-        // } else {
-        //     deg = settings[0].toBoolean()
-        //     decAccu = settings[1].toInt()
-        //     when (deg) {
-        //         true -> binding.toolbar[0].isSelected = true
-        //         false -> binding.toolbar[1].isSelected = true
-        //     }
-        // }
-        // binding.toolbar[2].setOnClickListener({
-        //     showError("aaaaa")
-        // })
-    }
-
-    // override fun onRequestPermissionsResult(requestCode: Int,
-    //                                         permissions: Array<String>,
-    //                                         grantResults: IntArray) {
-    //     super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-    //     if (requestCode == 100) {
-    //         if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-    //             Toast.makeText(this@MainActivity, "Permission Granted", Toast.LENGTH_SHORT).show()
-    //         } else {
-    //             Toast.makeText(this@MainActivity, "Permission Denied", Toast.LENGTH_SHORT).show()
-    //         }
-    //     }
-    // }
-//
-    // private fun writeLocal(file: File) {
-    //     file.writeText("%s\n%d".format(deg, decAccu))
-    // }
 
     // CALC FUNCS
     private fun isFunc(eq: String, i: Int): Boolean {
@@ -550,6 +516,12 @@ class MainActivity : AppCompatActivity() {
     private fun performHaptic(view: View) {
         view.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY)
     }
+    private fun saveSettings(deg: Boolean, decAccu: Int) {
+        file.writeText("%s\n%d".format(
+            when (deg) {true -> "deg"
+            false -> "rad"},
+        decAccu))
+    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -575,12 +547,14 @@ class MainActivity : AppCompatActivity() {
                 item.isChecked = true
                 deg = true
                 binding.resText.text = getString(R.string.deg_item_return_msg)
+                saveSettings(deg, decAccu)
                 true
             }
             R.id.action_rad_mode -> {
                 item.isChecked = true
                 deg = false
                 binding.resText.text = getString(R.string.rad_item_return_msg)
+                saveSettings(deg, decAccu)
                 true
             }
             R.id.action_accuracy_dialog -> {
@@ -599,6 +573,7 @@ class MainActivity : AppCompatActivity() {
                     .setPositiveButton(getString(R.string.dialog_button_ok)) { it, _ ->
                         decAccu = customAlertDialogView.findViewById<Slider>(R.id.accuracy_slider).value.toInt()
                         binding.resText.text = getString(R.string.dec_accu_dialog_save_return_msg).format(decAccu)
+                        saveSettings(deg, decAccu)
                         Toast.makeText(this, getString(R.string.toast_msg_saved), Toast.LENGTH_SHORT).show()
                         it.dismiss()
                     }
@@ -626,11 +601,4 @@ class MainActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
-/*
-    override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
-        return navController.navigateUp(appBarConfiguration)
-                || super.onSupportNavigateUp()
-    }
- */
 }
