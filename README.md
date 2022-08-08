@@ -10,7 +10,7 @@
 - [x] **确定键盘位置、对齐按键。** Set keyboard placement & align buttons.
 - [x] **加入“关于”页面（或弹窗）。** Implement 'About' page (or dialog).
 - [x] **根据屏幕尺寸（或方向）自适应元素排列。** Adjust layout according to screen size (or orientation).
-- [ ] **设置支持本地存储。** Save settings locally.
+- [x] **设置支持本地存储。** Save settings locally.
 - [x] **支持自动取色。** Add Material You support.
 
 ## 感谢支持！
