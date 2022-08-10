@@ -1,10 +1,11 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
-    <dimen name="keyboard_button_margin">8dp</dimen>
+    <dimen name="keyboard_button_margin">2dp</dimen>
     <dimen name="keyboard_button_vertical_margin">2dp</dimen>
-    <dimen name="keyboard_button_text">14dp</dimen>
+    <dimen name="keyboard_button_text">12dp</dimen>
     <dimen name="dedicated_button_margin">2dp</dimen>
-    <dimen name="land_min_width">360dp</dimen>
+    <dimen name="land_min_width">320dp</dimen>
     <dimen name="keyboard_button_land_bottom_margin">-30dp</dimen>
-    <dimen name="res_text_size">24dp</dimen>
+    <dimen name="res_text_size">20dp</dimen>
+    <dimen name="keyboard_button_minHeight">36dp</dimen>
 </resources>

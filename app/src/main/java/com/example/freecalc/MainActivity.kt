@@ -1,5 +1,6 @@
 package com.example.freecalc
 
+import android.annotation.SuppressLint
 import android.content.res.Resources
 import android.graphics.Color
 import android.os.Bundle
@@ -21,7 +22,6 @@ import java.io.File
 import java.util.*
 import kotlin.math.*
 
-
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -37,7 +37,6 @@ class MainActivity : AppCompatActivity() {
 
     // LOCAL SETTINGS
     lateinit var file: File
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -343,6 +342,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+    @SuppressLint("SetTextI18n")
     private fun kbMRListener(): View.OnClickListener {
         return View.OnClickListener {
             performHaptic(it)
@@ -359,6 +359,7 @@ class MainActivity : AppCompatActivity() {
             binding.resText.text = ""
         }
     }
+    @SuppressLint("SetTextI18n")
     private fun kbBackListener(): View.OnClickListener {
         return View.OnClickListener  {
             performHaptic(it)
@@ -375,11 +376,22 @@ class MainActivity : AppCompatActivity() {
         }
     }
     private fun setKbButtonProperties(index: Int, kb: Button, keyboard_buttonTexts: String) {
+        // val param = GridLayout.LayoutParams()
+        // param.rowSpec = (binding.kbC.layoutParams as GridLayout.LayoutParams).rowSpec
+        // param.columnSpec = (binding.kbC.layoutParams as GridLayout.LayoutParams).columnSpec
+        // param.marginStart = binding.kbC.marginStart
+        // kb.layoutParams = param
+        kb.minHeight = binding.kbC.minHeight
+        // kb.width = binding.kbC.minWidth
+        kb.textSize = px2sp(binding.kbC.textSize)
+
         val param = GridLayout.LayoutParams(
             GridLayout.spec(GridLayout.UNDEFINED, GridLayout.FILL, 1f),
             GridLayout.spec(GridLayout.UNDEFINED, GridLayout.FILL, 1f))
         param.marginStart = binding.kbC.marginStart
+        param.bottomMargin = (binding.kbC.layoutParams as GridLayout.LayoutParams).bottomMargin
         kb.layoutParams = param
+
         val keyboard_isOp = arrayOf(
             true, true, true, true,
             false, false, false, true,
@@ -395,13 +407,13 @@ class MainActivity : AppCompatActivity() {
             true -> 285212842
             false -> 285239039
         })
-        kb.textSize = px2sp(binding.kbC.textSize)
     }
 
     private fun px2sp(px: Float): Float {
         return px / Resources.getSystem().displayMetrics.scaledDensity
     }
 
+    @SuppressLint("SetTextI18n")
     private fun kbLower20ButtonClickListener(i: Int, kb: Button): View.OnClickListener {
         return View.OnClickListener {
             performHaptic(it)
@@ -558,12 +570,6 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.action_accuracy_dialog -> {
-                // val dialog = AlertDialog.Builder(this)
-                // dialog.setTitle("Decimal Accuracy")
-                // dialog.setPositiveButton("OK") { it, _ -> it.dismiss() }
-                // dialog.setCancelable(true)
-                // dialog.setNegativeButton("Cancel") { it, _ -> it.dismiss()}
-                // dialog.show()
                 val customAlertDialogView = LayoutInflater.from(this).inflate(R.layout.fragment_accuracy_dialog, null, false)
                 customAlertDialogView.findViewById<Slider>(R.id.accuracy_slider).value = decAccu.toFloat()
                 MaterialAlertDialogBuilder(this)
