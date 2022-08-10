@@ -69,6 +69,7 @@
             android:layout_marginBottom="20dp"
             android:textColor="?attr/calcButtonFontColor"
             android:textSize="18sp"
+            android:minHeight="@dimen/keyboard_button_minHeight"
             app:layout_constraintBottom_toTopOf="@id/keyboard_grid"/>
 
         <GridLayout
@@ -94,67 +95,91 @@
 
             <Button
                 android:id="@+id/kb_mc"
+                android:minWidth="1dp"
+                android:minHeight="@dimen/keyboard_button_minHeight"
                 android:layout_marginStart="@dimen/keyboard_button_margin"
                 android:backgroundTint="#1100aa00"
                 android:text="MC"
                 android:textSize="@dimen/keyboard_button_text"
-                android:layout_columnWeight="1"/>
+                android:layout_columnWeight="1"
+                android:layout_marginBottom="@dimen/keyboard_button_vertical_margin"/>
 
             <Button
                 android:id="@+id/kb_mp"
+                android:minWidth="1dp"
+                android:minHeight="@dimen/keyboard_button_minHeight"
                 android:layout_marginStart="@dimen/keyboard_button_margin"
                 android:backgroundTint="#1100aa00"
                 android:text="M+"
                 android:textSize="@dimen/keyboard_button_text"
-                android:layout_columnWeight="1"/>
+                android:layout_columnWeight="1"
+                android:layout_marginBottom="@dimen/keyboard_button_vertical_margin"/>
 
             <Button
                 android:id="@+id/kb_mm"
+                android:minWidth="1dp"
+                android:minHeight="@dimen/keyboard_button_minHeight"
                 android:layout_marginStart="@dimen/keyboard_button_margin"
                 android:backgroundTint="#1100aa00"
                 android:text="M-"
                 android:textSize="@dimen/keyboard_button_text"
-                android:layout_columnWeight="1"/>
+                android:layout_columnWeight="1"
+                android:layout_marginBottom="@dimen/keyboard_button_vertical_margin"/>
 
             <Button
                 android:id="@+id/kb_mr"
+                android:minWidth="1dp"
+                android:minHeight="@dimen/keyboard_button_minHeight"
                 android:layout_marginStart="@dimen/keyboard_button_margin"
                 android:backgroundTint="#1100aa00"
                 android:text="MR"
                 android:textSize="@dimen/keyboard_button_text"
-                android:layout_columnWeight="1"/>
+                android:layout_columnWeight="1"
+                android:layout_marginBottom="@dimen/keyboard_button_vertical_margin"/>
 
             <Button
                 android:id="@+id/kb_func"
+                android:minWidth="1dp"
+                android:minHeight="@dimen/keyboard_button_minHeight"
                 android:layout_marginStart="@dimen/keyboard_button_margin"
                 android:backgroundTint="#1100aa00"
-                android:text="func"
+                android:text="fun"
                 android:textSize="@dimen/keyboard_button_text"
-                android:layout_columnWeight="1"/>
+                android:layout_columnWeight="1"
+                android:layout_marginBottom="@dimen/keyboard_button_vertical_margin"/>
 
             <Button
                 android:id="@+id/kb_const"
+                android:minWidth="1dp"
+                android:minHeight="@dimen/keyboard_button_minHeight"
                 android:layout_marginStart="@dimen/keyboard_button_margin"
                 android:backgroundTint="#1100aa00"
-                android:text="cons"
+                android:text="con"
                 android:textSize="@dimen/keyboard_button_text"
-                android:layout_columnWeight="1"/>
+                android:layout_columnWeight="1"
+                android:layout_marginBottom="@dimen/keyboard_button_vertical_margin"/>
 
             <Button
                 android:id="@+id/kb_c"
+                android:minWidth="1dp"
+                android:minHeight="@dimen/keyboard_button_minHeight"
                 android:layout_marginStart="@dimen/keyboard_button_margin"
                 android:backgroundTint="#11aa0000"
-                android:text="C"
+                android:text=" C "
                 android:textSize="@dimen/keyboard_button_text"
-                android:layout_columnWeight="1"/>
+                android:layout_columnWeight="1"
+                android:layout_marginBottom="@dimen/keyboard_button_vertical_margin"/>
 
             <Button
                 android:id="@+id/kb_back"
+                android:minWidth="1dp"
+                android:minHeight="@dimen/keyboard_button_minHeight"
                 android:layout_marginStart="@dimen/keyboard_button_margin"
                 android:backgroundTint="#11aa0000"
                 android:text="←"
                 android:textSize="@dimen/keyboard_button_text"
-                android:layout_columnWeight="1"/>
+                android:layout_columnWeight="1"
+                android:layout_marginBottom="@dimen/keyboard_button_vertical_margin"/>
         </GridLayout>
 
         <Button

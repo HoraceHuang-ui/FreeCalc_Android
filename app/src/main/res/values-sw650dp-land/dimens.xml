@@ -8,4 +8,5 @@
     <dimen name="land_min_width">600dp</dimen>
     <dimen name="keyboard_button_land_bottom_margin">6dp</dimen>
     <dimen name="res_text_size">32dp</dimen>
+    <dimen name="keyboard_button_minHeight">60dp</dimen>
 </resources>
