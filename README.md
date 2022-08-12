@@ -7,11 +7,9 @@
 [English document](https://github.com/HoraceHuang-ui/Utilities_Collections/blob/master/README_English.md#-free-calculator)
 
 ## 待办清单 / TODO
-- [x] **确定键盘位置、对齐按键。** Set keyboard placement & align buttons.
-- [x] **加入“关于”页面（或弹窗）。** Implement 'About' page (or dialog).
-- [x] **根据屏幕尺寸（或方向）自适应元素排列。** Adjust layout according to screen size (or orientation).
-- [x] **设置支持本地存储。** Save settings locally.
-- [x] **支持自动取色。** Add Material You support.
+- [ ] **支持最小宽度在 360dp 以下的设备。** Add support for min width 360dp devices.
+- [ ] **直接按 “.” 即可输入 “0.”。** Tap '.' for '0.'.
+- [ ] **增加计算后清除输入框的选项。** Add an option to clear expressions form after calculation.
 
 ## 感谢支持！
 Thanks for your support!
