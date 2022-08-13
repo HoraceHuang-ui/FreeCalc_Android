@@ -8,7 +8,7 @@
 
 ## 待办清单 / TODO
 - [ ] **支持最小宽度在 360dp 以下的设备。** Add support for min width 360dp devices.
-- [ ] **直接按 “.” 即可输入 “0.”。** Tap '.' for '0.'.
+- [x] **直接按 “.” 即可输入 “0.”。** Tap '.' for '0.'.
 - [ ] **增加计算后清除输入框的选项。** Add an option to clear expressions form after calculation.
 
 ## 感谢支持！
