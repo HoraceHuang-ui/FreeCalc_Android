@@ -3,16 +3,13 @@
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">FreeCalc by HYY</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
     <string name="expression">Expression</string>
     <string name="menu_item_rad">RAD</string>
     <string name="accuracy">"Accuracy: "</string>
     <string name="calculate">Calculate</string>
-    <string name="hide_dedicated_keyboard">Hide Dedicated Keyboard</string>
+    <string name="hide_dedicated_keyboard">Hide Keyboard</string>
     <string name="invalid_expression">Invalid expression.</string>
-    <string name="show_dedicated_keyboard">Show Dedicated Keyboard</string>
+    <string name="show_dedicated_keyboard">Show Keyboard</string>
     <string name="menu_item_deg">DEG</string>
     <string name="action_done">Done</string>
     <string name="dec_accu_dialog_title">Decimal Accuracy</string>
@@ -28,4 +25,6 @@
     <string name="deg_item_return_msg">Now in Degree mode.</string>
     <string name="about_freecalc">About FreeCalc</string>
     <string name="made_by_horace">Made by Horace Huang</string>
+    <string name="more_options">More Options</string>
+    <string name="override_form">Override Form</string>
 </resources>

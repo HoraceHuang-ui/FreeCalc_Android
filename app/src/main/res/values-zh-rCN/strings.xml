@@ -3,9 +3,6 @@
     <string name="app_name">自由计算器</string>
     <string name="action_settings">设置</string>
     <string name="first_fragment_label">自由计算器 by HYY</string>
-    <string name="second_fragment_label">页面 2</string>
-    <string name="next">下一页</string>
-    <string name="previous">上一页</string>
     <string name="expression">表达式</string>
     <string name="menu_item_rad">弧度制</string>
     <string name="accuracy">小数精确位数：</string>
@@ -28,4 +25,6 @@
     <string name="deg_item_return_msg">已设为角度制。</string>
     <string name="about_freecalc">关于自由计算器</string>
     <string name="made_by_horace">HoraceHYY 出品</string>
+    <string name="more_options">更多设置</string>
+    <string name="override_form">计算后覆盖原式</string>
 </resources>

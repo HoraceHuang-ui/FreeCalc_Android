@@ -1,11 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/separator1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#55c0c0c0"
+        android:layout_marginBottom="20dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="22dp"
+        android:layout_rowWeight="1"/>
 
     <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/ovr_switch"
         style="?attr/materialSwitchStyle"
-        android:text="Override Form"
+        android:text="@string/override_form"
         android:textSize="20sp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
