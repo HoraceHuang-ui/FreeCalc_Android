@@ -1,6 +1,7 @@
 package com.example.freecalc
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Color
 import android.os.Bundle
@@ -418,15 +419,29 @@ class MainActivity : AppCompatActivity() {
         return View.OnClickListener {
             performHaptic(it)
             val s = binding.eqForm.text.toString()
-            val temp = binding.eqForm.selectionStart
-            binding.eqForm.setText(s.substring(0 until binding.eqForm.selectionStart) +
+            var temp = binding.eqForm.selectionStart
+            binding.eqForm.setText(s.substring(0 until temp) +
                     (when(i) {
-                        3 -> "%"
-                        else -> kb.text.toString()})
+                        3 ->  {
+                            temp++
+                            "%"
+                        }
+                        18 -> {
+                            if (temp == 0 || s[temp-1] !in '0'..'9') {
+                                temp += 2
+                                "0."
+                            } else {
+                                temp++
+                                "."
+                            }
+                        }
+                        else -> {
+                            temp++
+                            kb.text.toString()
+                        }})
                     + s.substring(binding.eqForm.selectionEnd)
             )
-            if (i == 3) binding.eqForm.setSelection(temp+1)
-            else binding.eqForm.setSelection(temp+kb.text.length)
+            binding.eqForm.setSelection(temp)
 
             if (funcMode) {
                 binding.kbFunc.performClick()
@@ -567,6 +582,20 @@ class MainActivity : AppCompatActivity() {
                 deg = false
                 binding.resText.text = getString(R.string.rad_item_return_msg)
                 saveSettings(deg, decAccu)
+                true
+            }
+            R.id.action_more_dialog -> {
+                // TODO: Implement a dialog od more options
+                val customAlertDialogView = LayoutInflater.from(this).inflate(R.layout.fragment_more_options, null, false)
+                MaterialAlertDialogBuilder(this)
+                    .setView(customAlertDialogView)
+                    .setIcon(R.drawable.ic_dec_accu_new)
+                    .setTitle("More Options")
+                    .setPositiveButton("OK") { it, _ ->
+                        Toast.makeText(this, getString(R.string.toast_msg_saved), Toast.LENGTH_SHORT).show()
+                        it.dismiss()
+                    }
+                    .show()
                 true
             }
             R.id.action_accuracy_dialog -> {

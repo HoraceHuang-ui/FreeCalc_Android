@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.FreeCalc_Material3Test" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Theme.FreeCalc_Material3Test" parent="Base.Theme.FreeCalc_Material3Test">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/material_dynamic_primary70</item>
         <item name="colorPrimaryVariant">@color/design_default_color_primary_variant</item>

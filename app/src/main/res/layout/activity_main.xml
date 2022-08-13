@@ -101,8 +101,7 @@
                 android:backgroundTint="#1100aa00"
                 android:text="MC"
                 android:textSize="@dimen/keyboard_button_text"
-                android:layout_columnWeight="1"
-                android:layout_marginBottom="@dimen/keyboard_button_vertical_margin"/>
+                android:layout_columnWeight="1" />
 
             <Button
                 android:id="@+id/kb_mp"
@@ -112,8 +111,7 @@
                 android:backgroundTint="#1100aa00"
                 android:text="M+"
                 android:textSize="@dimen/keyboard_button_text"
-                android:layout_columnWeight="1"
-                android:layout_marginBottom="@dimen/keyboard_button_vertical_margin"/>
+                android:layout_columnWeight="1"/>
 
             <Button
                 android:id="@+id/kb_mm"
@@ -123,8 +121,7 @@
                 android:backgroundTint="#1100aa00"
                 android:text="M-"
                 android:textSize="@dimen/keyboard_button_text"
-                android:layout_columnWeight="1"
-                android:layout_marginBottom="@dimen/keyboard_button_vertical_margin"/>
+                android:layout_columnWeight="1"/>
 
             <Button
                 android:id="@+id/kb_mr"
@@ -134,8 +131,7 @@
                 android:backgroundTint="#1100aa00"
                 android:text="MR"
                 android:textSize="@dimen/keyboard_button_text"
-                android:layout_columnWeight="1"
-                android:layout_marginBottom="@dimen/keyboard_button_vertical_margin"/>
+                android:layout_columnWeight="1"/>
 
             <Button
                 android:id="@+id/kb_func"
@@ -145,8 +141,7 @@
                 android:backgroundTint="#1100aa00"
                 android:text="fun"
                 android:textSize="@dimen/keyboard_button_text"
-                android:layout_columnWeight="1"
-                android:layout_marginBottom="@dimen/keyboard_button_vertical_margin"/>
+                android:layout_columnWeight="1"/>
 
             <Button
                 android:id="@+id/kb_const"
@@ -156,8 +151,7 @@
                 android:backgroundTint="#1100aa00"
                 android:text="con"
                 android:textSize="@dimen/keyboard_button_text"
-                android:layout_columnWeight="1"
-                android:layout_marginBottom="@dimen/keyboard_button_vertical_margin"/>
+                android:layout_columnWeight="1"/>
 
             <Button
                 android:id="@+id/kb_c"
@@ -167,8 +161,7 @@
                 android:backgroundTint="#11aa0000"
                 android:text=" C "
                 android:textSize="@dimen/keyboard_button_text"
-                android:layout_columnWeight="1"
-                android:layout_marginBottom="@dimen/keyboard_button_vertical_margin"/>
+                android:layout_columnWeight="1"/>
 
             <Button
                 android:id="@+id/kb_back"
@@ -178,8 +171,7 @@
                 android:backgroundTint="#11aa0000"
                 android:text="←"
                 android:textSize="@dimen/keyboard_button_text"
-                android:layout_columnWeight="1"
-                android:layout_marginBottom="@dimen/keyboard_button_vertical_margin"/>
+                android:layout_columnWeight="1"/>
         </GridLayout>
 
         <Button
