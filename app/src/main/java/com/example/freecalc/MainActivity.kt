@@ -11,6 +11,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.GridLayout
+import android.widget.Switch
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
@@ -19,6 +20,7 @@ import com.example.freecalc.databinding.ActivityMainBinding
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.slider.Slider
+import com.google.android.material.switchmaterial.SwitchMaterial
 import java.io.File
 import java.util.*
 import kotlin.math.*
@@ -38,6 +40,7 @@ class MainActivity : AppCompatActivity() {
 
     // LOCAL SETTINGS
     lateinit var file: File
+    var ovrForm = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -49,11 +52,16 @@ class MainActivity : AppCompatActivity() {
         file = File(this.filesDir, "settings")
         if (file.exists()) {
             val settingsStr = file.readLines()
-            deg = settingsStr[0] == "deg"
-            decAccu = settingsStr[1].toInt()
+            if (settingsStr.size < 3) {
+                file.writeText("deg\n5\nnotOvr")
+            } else {
+                deg = settingsStr[0] == "deg"
+                decAccu = settingsStr[1].toInt()
+                ovrForm = settingsStr[2] == "ovr"
+            }
         } else {
             file.createNewFile()
-            file.writeText("deg\n5")
+            file.writeText("deg\n5\nnotOvr")
         }
 
         // TODO: Implement a FreeCalc logo on toolbar
@@ -61,15 +69,6 @@ class MainActivity : AppCompatActivity() {
         // actionBar.setLogo(R.drawable.ic_toolbar_logo_xml)
         actionBar.setTitle(R.string.first_fragment_label)
         setSupportActionBar(actionBar)
-
-        // if (intent.hasExtra("settingBundle")) {
-        //     val deg = intent?.extras?.getBundle("settingsBundle")?.getBoolean("degMode")!!
-        //     val decAccu = intent?.extras?.getBundle("settingsBundle")?.getInt("decAccu")!!
-        // }
-
-        // val navController = findNavController(R.id.nav_host_fragment_content_main)
-        // appBarConfiguration = AppBarConfiguration(navController.graph)
-        // setupActionBarWithNavController(navController, appBarConfiguration)
 
         val keyboard_buttons = Array<Button>(20) { MaterialButton(this) }
         val keyboard_buttonTexts = "()^%123+456-789*,0./"
@@ -301,6 +300,10 @@ class MainActivity : AppCompatActivity() {
                 i++
             }
             tryCalculation(s)
+            if (ovrForm) {
+                binding.eqForm.setText(binding.resText.text)
+                binding.eqForm.setSelection(binding.eqForm.text!!.length)
+            }
         }
     }
 
@@ -543,11 +546,15 @@ class MainActivity : AppCompatActivity() {
     private fun performHaptic(view: View) {
         view.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY)
     }
-    private fun saveSettings(deg: Boolean, decAccu: Int) {
-        file.writeText("%s\n%d".format(
+    private fun saveSettings() {
+        file.writeText("%s\n%d\n%s".format(
             when (deg) {true -> "deg"
             false -> "rad"},
-        decAccu))
+        decAccu,
+        when (ovrForm) {
+            true -> "ovr"
+            false -> "notOvr"
+        }))
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -574,28 +581,14 @@ class MainActivity : AppCompatActivity() {
                 item.isChecked = true
                 deg = true
                 binding.resText.text = getString(R.string.deg_item_return_msg)
-                saveSettings(deg, decAccu)
+                saveSettings()
                 true
             }
             R.id.action_rad_mode -> {
                 item.isChecked = true
                 deg = false
                 binding.resText.text = getString(R.string.rad_item_return_msg)
-                saveSettings(deg, decAccu)
-                true
-            }
-            R.id.action_more_dialog -> {
-                // TODO: Implement a dialog od more options
-                val customAlertDialogView = LayoutInflater.from(this).inflate(R.layout.fragment_more_options, null, false)
-                MaterialAlertDialogBuilder(this)
-                    .setView(customAlertDialogView)
-                    .setIcon(R.drawable.ic_dec_accu_new)
-                    .setTitle("More Options")
-                    .setPositiveButton("OK") { it, _ ->
-                        Toast.makeText(this, getString(R.string.toast_msg_saved), Toast.LENGTH_SHORT).show()
-                        it.dismiss()
-                    }
-                    .show()
+                saveSettings()
                 true
             }
             R.id.action_accuracy_dialog -> {
@@ -608,7 +601,7 @@ class MainActivity : AppCompatActivity() {
                     .setPositiveButton(getString(R.string.dialog_button_ok)) { it, _ ->
                         decAccu = customAlertDialogView.findViewById<Slider>(R.id.accuracy_slider).value.toInt()
                         binding.resText.text = getString(R.string.dec_accu_dialog_save_return_msg).format(decAccu)
-                        saveSettings(deg, decAccu)
+                        saveSettings()
                         Toast.makeText(this, getString(R.string.toast_msg_saved), Toast.LENGTH_SHORT).show()
                         it.dismiss()
                     }
@@ -617,6 +610,30 @@ class MainActivity : AppCompatActivity() {
                         it.dismiss()
                     }
                     .setMessage(getString(R.string.dec_accu_dialog_msg).format(decAccu))
+                    .show()
+                true
+            }
+            R.id.action_more_dialog -> {
+                // TODO: Implement a dialog of more options
+                val customAlertDialogView =
+                    LayoutInflater.from(this).inflate(R.layout.fragment_more_options, null, false)
+                customAlertDialogView.findViewById<SwitchMaterial>(R.id.ovr_switch).isChecked =
+                    ovrForm
+                MaterialAlertDialogBuilder(this)
+                    .setView(customAlertDialogView)
+                    .setIcon(R.drawable.ic_settings)
+                    .setTitle(getString(R.string.more_options))
+                    .setPositiveButton(getString(R.string.dialog_button_ok)) { it, _ ->
+                        ovrForm =
+                            customAlertDialogView.findViewById<SwitchMaterial>(R.id.ovr_switch).isChecked
+                        saveSettings()
+                        Toast.makeText(
+                            this,
+                            getString(R.string.toast_msg_saved),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        it.dismiss()
+                    }
                     .show()
                 true
             }
