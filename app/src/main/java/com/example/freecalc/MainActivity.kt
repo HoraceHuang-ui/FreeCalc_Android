@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.GridLayout
 import android.widget.Switch
@@ -77,6 +78,7 @@ class MainActivity : AppCompatActivity() {
             "cot", "sqr", "abs",
             "flo", "log", "cei"
         )
+        // binding.eqForm.inputType = EditorInfo.TYPE_NULL
 
         binding.calcButton.setOnClickListener(calcButtonListener())
         binding.keyboardButton.setOnClickListener(dedicatedKeyboardButtonListener())
@@ -92,6 +94,23 @@ class MainActivity : AppCompatActivity() {
 
         binding.kbFunc.setOnClickListener(kbFuncButtonListener(keyboard_buttons, funcMode_kbButtonTexts, keyboard_buttonTexts))
         binding.kbConst.setOnClickListener(kbConsButtonListener(keyboard_buttons, keyboard_buttonTexts))
+
+        binding.cursorLeft?.setOnClickListener { _ ->
+            val temp = binding.eqForm.selectionStart
+            if (temp != 0) {
+                val s = binding.eqForm.text.toString()
+                binding.eqForm.setText(s.substring(0 until temp-1) + "_" + s[temp-1] + s.substring(temp+1))
+                binding.eqForm.setSelection(temp - 1)
+            }
+        }
+        binding.cursorRight?.setOnClickListener { _ ->
+            val temp = binding.eqForm.selectionStart
+            if (temp != binding.eqForm.length()-1) {
+                val s = binding.eqForm.text.toString()
+                binding.eqForm.setText(s.substring(0 until temp) + s[temp+1] + "_" + s.substring(temp+2))
+                binding.eqForm.setSelection(temp + 1)
+            }
+        }
     }
 
     // CALC FUNCS
@@ -293,16 +312,16 @@ class MainActivity : AppCompatActivity() {
             var s = binding.eqForm.text.toString()
             var i = 0
             while (i < s.length) {
-                if (s[i] == ' ') {
-                    s = s.removeRange(i, i)
+                if (s[i] == ' ' || s[i] == '_') {
+                    s = s.removeRange(i..i)
                     i--
                 }
                 i++
             }
             tryCalculation(s)
             if (ovrForm) {
-                binding.eqForm.setText(binding.resText.text)
-                binding.eqForm.setSelection(binding.eqForm.text!!.length)
+                binding.eqForm.setText(binding.resText.text.toString() + "_")
+                binding.eqForm.setSelection(binding.eqForm.text!!.length-1)
             }
         }
     }
@@ -352,7 +371,10 @@ class MainActivity : AppCompatActivity() {
             performHaptic(it)
             val s = binding.eqForm.text.toString()
             val temp = binding.eqForm.selectionStart
-            binding.eqForm.setText(s.substring(0 until binding.eqForm.selectionStart) + "M" + s.substring(binding.eqForm.selectionEnd))
+            binding.eqForm.setText(s.substring(0 until binding.eqForm.selectionStart)
+                    + "M"
+                    + if (s.length == 0) { '_' } else { "" }
+                    + s.substring(binding.eqForm.selectionEnd))
             binding.eqForm.setSelection(temp+1)
         }
     }
@@ -439,9 +461,10 @@ class MainActivity : AppCompatActivity() {
                             }
                         }
                         else -> {
-                            temp++
+                            temp += kb.text.length
                             kb.text.toString()
                         }})
+                    + if (s.length == 0) { '_' } else { "" }
                     + s.substring(binding.eqForm.selectionEnd)
             )
             binding.eqForm.setSelection(temp)
