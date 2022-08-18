@@ -38,6 +38,7 @@ class MainActivity : AppCompatActivity() {
     // STATUS VALUES
     var funcMode = false
     var consMode = false
+    var prevForm = ""
 
     // LOCAL SETTINGS
     lateinit var file: File
@@ -95,15 +96,15 @@ class MainActivity : AppCompatActivity() {
         binding.kbFunc.setOnClickListener(kbFuncButtonListener(keyboard_buttons, funcMode_kbButtonTexts, keyboard_buttonTexts))
         binding.kbConst.setOnClickListener(kbConsButtonListener(keyboard_buttons, keyboard_buttonTexts))
 
-        binding.cursorLeft?.setOnClickListener { _ ->
+        binding.cursorLeft.setOnClickListener { _ ->
             val temp = binding.eqForm.selectionStart
             if (temp != 0) {
                 val s = binding.eqForm.text.toString()
                 binding.eqForm.setText(s.substring(0 until temp-1) + "_" + s[temp-1] + s.substring(temp+1))
                 binding.eqForm.setSelection(temp - 1)
             }
-        }   
-        binding.cursorRight?.setOnClickListener { _ ->
+        }
+        binding.cursorRight.setOnClickListener { _ ->
             val temp = binding.eqForm.selectionStart
             if (temp != binding.eqForm.length()-1) {
                 val s = binding.eqForm.text.toString()
@@ -310,6 +311,8 @@ class MainActivity : AppCompatActivity() {
     private fun calcButtonListener(): View.OnClickListener {
         return View.OnClickListener {
             var s = binding.eqForm.text.toString()
+            prevForm = s
+            setUndoState(true, binding.toolbar.menu.findItem(R.id.action_undo))
             var i = 0
             while (i < s.length) {
                 if (s[i] == ' ' || s[i] == '_') {
@@ -381,6 +384,8 @@ class MainActivity : AppCompatActivity() {
     private fun kbCListener(): View.OnClickListener {
         return View.OnClickListener {
             performHaptic(it)
+            prevForm = binding.eqForm.text.toString()
+            setUndoState(true, binding.toolbar.menu.findItem(R.id.action_undo))
             binding.eqForm.setText("")
             binding.resText.text = ""
         }
@@ -600,6 +605,14 @@ class MainActivity : AppCompatActivity() {
         // as you specify a parent activity in AndroidManifest.xml.
 
         return when (item.itemId) {
+            R.id.action_undo -> {
+                setUndoState(false, item)
+                binding.eqForm.setText(prevForm)
+                if (prevForm.length > 1) {
+                    binding.eqForm.setSelection(prevForm.length - 1)
+                }
+                true
+            }
             R.id.action_deg_mode -> {
                 item.isChecked = true
                 deg = true
@@ -637,7 +650,6 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.action_more_dialog -> {
-                // TODO: Implement a dialog of more options
                 val customAlertDialogView =
                     LayoutInflater.from(this).inflate(R.layout.fragment_more_options, null, false)
                 customAlertDialogView.findViewById<SwitchMaterial>(R.id.ovr_switch).isChecked =
@@ -647,8 +659,7 @@ class MainActivity : AppCompatActivity() {
                     .setIcon(R.drawable.ic_settings)
                     .setTitle(getString(R.string.more_options))
                     .setPositiveButton(getString(R.string.dialog_button_ok)) { it, _ ->
-                        ovrForm =
-                            customAlertDialogView.findViewById<SwitchMaterial>(R.id.ovr_switch).isChecked
+                        ovrForm = customAlertDialogView.findViewById<SwitchMaterial>(R.id.ovr_switch).isChecked
                         saveSettings()
                         Toast.makeText(
                             this,
@@ -674,6 +685,16 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun setUndoState(setEnabled: Boolean, item: MenuItem) {
+        if (setEnabled) {
+            item.isEnabled = true
+            item.icon = getDrawable(R.drawable.ic_undo)
+        } else {
+            item.isEnabled = false
+            item.icon = getDrawable(R.drawable.ic_undo_disabled)
         }
     }
 }
