@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".MainActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="68dp"
+        android:padding="16dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:minWidth="@dimen/land_min_width"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:id="@+id/left_panel">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:id="@+id/eq_form_layout"
+                android:minHeight="48dp"
+                android:hint="@string/expression">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/eq_form"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minLines="2"
+                    android:backgroundTint="@color/ic_launcher_background"/>
+            </com.google.android.material.textfield.TextInputLayout>
+            <TextView
+                android:id="@+id/mem_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                app:layout_constraintTop_toBottomOf="@id/eq_form_layout"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="Mem: 0"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="4dp"/>
+
+            <TextView
+                android:id="@+id/res_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:textSize="@dimen/res_text_size"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="Result: 0"
+                app:layout_constraintBottom_toTopOf="@id/calc_button" />
+
+            <ImageButton
+                android:id="@+id/cursor_left"
+                android:layout_width="60dp"
+                android:layout_height="0dp"
+                android:layout_margin="4dp"
+                app:layout_constraintTop_toTopOf="@id/calc_button"
+                app:layout_constraintEnd_toStartOf="@id/cursor_right"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/calc_button"
+                android:src="@drawable/ic_cursor_left"
+                android:background="@drawable/button_group_left"/>
+
+            <ImageButton
+                android:id="@+id/cursor_right"
+                android:layout_width="60dp"
+                android:layout_height="0dp"
+                android:layout_margin="4dp"
+                app:layout_constraintTop_toTopOf="@id/calc_button"
+                app:layout_constraintStart_toEndOf="@id/cursor_left"
+                app:layout_constraintEnd_toStartOf="@id/calc_button"
+                app:layout_constraintBottom_toBottomOf="@id/calc_button"
+                android:src="@drawable/ic_cursor_right"
+                android:background="@drawable/button_group_right"/>
+
+            <Button
+                android:id="@+id/calc_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/calculate"
+                android:layout_marginBottom="20dp"
+                android:textColor="?attr/calcButtonFontColor"
+                android:layout_margin="20dp"
+                android:textSize="18sp"
+                android:minHeight="@dimen/keyboard_button_minHeight"
+                app:layout_constraintStart_toEndOf="@id/cursor_right"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="@dimen/land_min_width"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/left_panel">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toTopOf="@id/keyboard_button"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <GridLayout
+                    android:id="@+id/keyboard_grid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:columnCount="4"
+                    android:rowCount="8">
+
+                    <Button
+                        android:id="@+id/kb_mc"
+                        android:minWidth="5dp"
+                        android:minHeight="@dimen/keyboard_button_minHeight"
+                        android:layout_marginStart="@dimen/keyboard_button_margin"
+                        android:backgroundTint="#1100aa00"
+                        android:text="MC"
+                        android:textSize="@dimen/keyboard_button_text"
+                        android:layout_columnWeight="1"/>
+
+                    <Button
+                        android:id="@+id/kb_mp"
+                        android:minWidth="5dp"
+                        android:minHeight="@dimen/keyboard_button_minHeight"
+                        android:layout_marginStart="@dimen/keyboard_button_margin"
+                        android:backgroundTint="#1100aa00"
+                        android:text="M+"
+                        android:textSize="@dimen/keyboard_button_text"
+                        android:layout_columnWeight="1"/>
+
+                    <Button
+                        android:id="@+id/kb_mm"
+                        android:minWidth="5dp"
+                        android:minHeight="@dimen/keyboard_button_minHeight"
+                        android:layout_marginStart="@dimen/keyboard_button_margin"
+                        android:backgroundTint="#1100aa00"
+                        android:text="M-"
+                        android:textSize="@dimen/keyboard_button_text"
+                        android:layout_columnWeight="1"/>
+
+                    <Button
+                        android:id="@+id/kb_mr"
+                        android:minWidth="5dp"
+                        android:minHeight="@dimen/keyboard_button_minHeight"
+                        android:layout_marginStart="@dimen/keyboard_button_margin"
+                        android:backgroundTint="#1100aa00"
+                        android:text="MR"
+                        android:textSize="@dimen/keyboard_button_text"
+                        android:layout_columnWeight="1"/>
+
+                    <Button
+                        android:id="@+id/kb_func"
+                        android:minWidth="5dp"
+                        android:minHeight="@dimen/keyboard_button_minHeight"
+                        android:layout_marginStart="@dimen/keyboard_button_margin"
+                        android:backgroundTint="#1100aa00"
+                        android:text="fun"
+                        android:textSize="@dimen/keyboard_button_text"
+                        android:layout_columnWeight="1"/>
+
+                    <Button
+                        android:id="@+id/kb_const"
+                        android:minWidth="5dp"
+                        android:minHeight="@dimen/keyboard_button_minHeight"
+                        android:layout_marginStart="@dimen/keyboard_button_margin"
+                        android:backgroundTint="#1100aa00"
+                        android:text="con"
+                        android:textSize="@dimen/keyboard_button_text"
+                        android:layout_columnWeight="1"/>
+
+                    <Button
+                        android:id="@+id/kb_c"
+                        android:minWidth="5dp"
+                        android:minHeight="@dimen/keyboard_button_minHeight"
+                        android:layout_marginStart="@dimen/keyboard_button_margin"
+                        android:backgroundTint="#11aa0000"
+                        android:text=" C "
+                        android:textSize="@dimen/keyboard_button_text"
+                        android:layout_columnWeight="1"/>
+
+                    <Button
+                        android:id="@+id/kb_back"
+                        android:minWidth="5dp"
+                        android:minHeight="@dimen/keyboard_button_minHeight"
+                        android:layout_marginStart="@dimen/keyboard_button_margin"
+                        android:backgroundTint="#11aa0000"
+                        android:text="←"
+                        android:textSize="@dimen/keyboard_button_text"
+                        android:layout_columnWeight="1"/>
+                </GridLayout>
+            </ScrollView>
+
+            <Button
+                android:id="@+id/keyboard_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#00000000"
+                android:text="@string/hide_dedicated_keyboard"
+                android:textColor="?attr/textFillColor"
+                android:layout_marginBottom="@dimen/keyboard_button_land_bottom_margin"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
