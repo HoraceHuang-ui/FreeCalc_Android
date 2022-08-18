@@ -22,6 +22,7 @@
         <item name="textFillColor">#66000000</item>
         <item name="materialAlertDialogTheme">@style/ThemeOverlay.Material3.MaterialAlertDialog.Centered</item>
         <item name="outlinedFillColor">@color/white</item>
+        <item name="actionBarIconColor">#2a3836</item>
     </style>
 
     <style name="buttonShape">

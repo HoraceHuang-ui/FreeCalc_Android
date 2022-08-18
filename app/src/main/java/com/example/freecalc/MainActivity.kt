@@ -313,7 +313,6 @@ class MainActivity : AppCompatActivity() {
     private fun calcButtonListener(): View.OnClickListener {
         return View.OnClickListener {
             var s = binding.eqForm.text.toString()
-            prevForm = s
             setUndoState(true, binding.toolbar.menu.findItem(R.id.action_undo))
             var i = 0
             while (i < s.length) {
@@ -323,6 +322,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 i++
             }
+            prevForm = s + "_"
             tryCalculation(s)
             if (ovrForm) {
                 binding.eqForm.setText(binding.resText.text.toString() + "_")
