@@ -72,6 +72,17 @@
                 tools:text="Result: 0"
                 app:layout_constraintBottom_toTopOf="@id/calc_button" />
 
+            <ImageButton
+                android:id="@+id/cursor_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@id/calc_button"
+                app:layout_constraintEnd_toStartOf="@id/calc_button"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/calc_button"
+                android:src="@drawable/ic_cursor_left"
+                android:backgroundTint="#00000000"/>
+
             <Button
                 android:id="@+id/calc_button"
                 android:layout_width="0dp"
@@ -82,9 +93,20 @@
                 android:layout_margin="20dp"
                 android:textSize="18sp"
                 android:minHeight="@dimen/keyboard_button_minHeight"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/cursor_right"
+                app:layout_constraintStart_toEndOf="@id/cursor_left"
                 app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <ImageButton
+                android:id="@+id/cursor_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@id/calc_button"
+                app:layout_constraintStart_toEndOf="@id/calc_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/calc_button"
+                android:src="@drawable/ic_cursor_right"
+                android:backgroundTint="#00000000"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

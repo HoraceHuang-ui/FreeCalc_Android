@@ -102,7 +102,7 @@ class MainActivity : AppCompatActivity() {
                 binding.eqForm.setText(s.substring(0 until temp-1) + "_" + s[temp-1] + s.substring(temp+1))
                 binding.eqForm.setSelection(temp - 1)
             }
-        }
+        }   
         binding.cursorRight?.setOnClickListener { _ ->
             val temp = binding.eqForm.selectionStart
             if (temp != binding.eqForm.length()-1) {
