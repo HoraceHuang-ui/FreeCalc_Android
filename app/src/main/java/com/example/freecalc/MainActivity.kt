@@ -72,6 +72,8 @@ class MainActivity : AppCompatActivity() {
         actionBar.setTitle(R.string.first_fragment_label)
         setSupportActionBar(actionBar)
 
+        binding.eqForm.inputType = EditorInfo.TYPE_NULL
+
         val keyboard_buttons = Array<Button>(20) { MaterialButton(this) }
         val keyboard_buttonTexts = "()^%123+456-789*,0./"
         val funcMode_kbButtonTexts = arrayOf(
