@@ -5,7 +5,7 @@
     <string name="first_fragment_label">FreeCalc by HYY</string>
     <string name="expression">Expression</string>
     <string name="menu_item_rad">RAD</string>
-    <string name="accuracy">"Accuracy: "</string>
+    <string name="accuracy">Decimal Accuracy: %d</string>
     <string name="calculate">Calculate</string>
     <string name="hide_dedicated_keyboard">Hide Keyboard</string>
     <string name="invalid_expression">Invalid expression.</string>
@@ -13,7 +13,7 @@
     <string name="menu_item_deg">DEG</string>
     <string name="action_done">Done</string>
     <string name="dec_accu_dialog_title">Decimal Accuracy</string>
-    <string name="dec_accu_dialog_msg">Control how many digits you\'d like the answer to have. Currently %d.</string>
+    <string name="dec_accu_dialog_msg">Control how many digits you\'d like the answer to have.</string>
     <string name="dialog_button_ok">OK</string>
     <string name="dialog_button_cancel">Cancel</string>
     <string name="toast_msg_saved">Saved.</string>
@@ -24,7 +24,14 @@
     <string name="rad_item_return_msg">Now in Radian mode.</string>
     <string name="deg_item_return_msg">Now in Degree mode.</string>
     <string name="about_freecalc">About FreeCalc</string>
-    <string name="made_by_horace">Made by Horace Huang</string>
+    <string name="made_by_horace">v1.5.1 Made by Horace Huang</string>
     <string name="more_options">More Options</string>
     <string name="override_form">Override Form</string>
+    <string name="tip_cursor_left">Move cursor left</string>
+    <string name="tip_cursor_right">Move cursor right</string>
+    <string name="options_calc_title">Calculation</string>
+    <string name="ovr_form_tip">Overrides the expression in the form by the calculation result.</string>
+    <string name="about_github">GitHub repo: https://github.com/HoraceHuang-ui/FreeCalc-Android</string>
+    <string name="about_email">Email: horacehuang17@gmail.com</string>
+    <string name="about_wechat">WeChat ID:</string>
 </resources>

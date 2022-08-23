@@ -4,16 +4,14 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.widget.Button
-import android.widget.GridLayout
-import android.widget.Switch
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.core.view.marginStart
@@ -98,7 +96,7 @@ class MainActivity : AppCompatActivity() {
         binding.kbFunc.setOnClickListener(kbFuncButtonListener(keyboard_buttons, funcMode_kbButtonTexts, keyboard_buttonTexts))
         binding.kbConst.setOnClickListener(kbConsButtonListener(keyboard_buttons, keyboard_buttonTexts))
 
-        binding.cursorLeft.setOnClickListener { _ ->
+        binding.cursorLeft.setOnClickListener {
             val temp = binding.eqForm.selectionStart
             if (temp != 0) {
                 val s = binding.eqForm.text.toString()
@@ -108,7 +106,7 @@ class MainActivity : AppCompatActivity() {
         }
         binding.cursorRight.setOnClickListener { _ ->
             val temp = binding.eqForm.selectionStart
-            if (temp != binding.eqForm.length()-1) {
+            if (binding.eqForm.length() != 0 && temp != binding.eqForm.length()-1) {
                 val s = binding.eqForm.text.toString()
                 binding.eqForm.setText(s.substring(0 until temp) + s[temp+1] + "_" + s.substring(temp+2))
                 binding.eqForm.setSelection(temp + 1)
@@ -629,39 +627,21 @@ class MainActivity : AppCompatActivity() {
                 saveSettings()
                 true
             }
-            R.id.action_accuracy_dialog -> {
-                val customAlertDialogView = LayoutInflater.from(this).inflate(R.layout.fragment_accuracy_dialog, null, false)
-                customAlertDialogView.findViewById<Slider>(R.id.accuracy_slider).value = decAccu.toFloat()
-                MaterialAlertDialogBuilder(this)
-                    .setView(customAlertDialogView)
-                    .setIcon(R.drawable.ic_dec_accu_new)
-                    .setTitle(getString(R.string.dec_accu_dialog_title))
-                    .setPositiveButton(getString(R.string.dialog_button_ok)) { it, _ ->
-                        decAccu = customAlertDialogView.findViewById<Slider>(R.id.accuracy_slider).value.toInt()
-                        binding.resText.text = getString(R.string.dec_accu_dialog_save_return_msg).format(decAccu)
-                        saveSettings()
-                        Toast.makeText(this, getString(R.string.toast_msg_saved), Toast.LENGTH_SHORT).show()
-                        it.dismiss()
-                    }
-                    .setNegativeButton(getString(R.string.dialog_button_cancel)) { it, _ ->
-                        Toast.makeText(this, getString(R.string.toast_msg_cancelled), Toast.LENGTH_SHORT).show()
-                        it.dismiss()
-                    }
-                    .setMessage(getString(R.string.dec_accu_dialog_msg).format(decAccu))
-                    .show()
-                true
-            }
             R.id.action_more_dialog -> {
                 val customAlertDialogView =
                     LayoutInflater.from(this).inflate(R.layout.fragment_more_options, null, false)
-                customAlertDialogView.findViewById<SwitchMaterial>(R.id.ovr_switch).isChecked =
-                    ovrForm
+                val switch = customAlertDialogView.findViewById<SwitchMaterial>(R.id.ovr_switch)
+                switch.isChecked = ovrForm
+                val slider = customAlertDialogView.findViewById<Slider>(R.id.accuracy_slider)
+                slider.value = decAccu.toFloat()
+                customAlertDialogView.findViewById<TextView>(R.id.dec_accu_title).text = getString(R.string.accuracy).format(decAccu)
                 MaterialAlertDialogBuilder(this)
                     .setView(customAlertDialogView)
                     .setIcon(R.drawable.ic_settings)
                     .setTitle(getString(R.string.more_options))
                     .setPositiveButton(getString(R.string.dialog_button_ok)) { it, _ ->
-                        ovrForm = customAlertDialogView.findViewById<SwitchMaterial>(R.id.ovr_switch).isChecked
+                        ovrForm = switch.isChecked
+                        decAccu = slider.value.toInt()
                         saveSettings()
                         Toast.makeText(
                             this,

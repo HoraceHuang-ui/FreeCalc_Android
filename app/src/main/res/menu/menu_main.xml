@@ -10,9 +10,6 @@
             android:title="@string/menu_item_deg" />
     </group>
 
-    <item android:id="@+id/action_accuracy_dialog"
-        android:title="@string/menu_item_accuracy"/>
-
     <item android:id="@+id/action_more_dialog"
         android:title="@string/more_options" />
 

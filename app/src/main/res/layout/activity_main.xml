@@ -71,7 +71,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="@id/calc_button"
             android:src="@drawable/ic_cursor_left"
-            android:background="@drawable/button_group_left"/>
+            android:background="@drawable/button_group_left"
+            android:contentDescription="@string/tip_cursor_left" />
 
         <Button
             android:id="@+id/calc_button"
@@ -87,7 +88,8 @@
             android:background="@drawable/button_group_mid_fill"
             app:layout_constraintEnd_toStartOf="@id/cursor_right"
             app:layout_constraintStart_toEndOf="@id/cursor_left"
-            app:layout_constraintBottom_toTopOf="@id/keyboard_grid"/>
+            app:layout_constraintBottom_toTopOf="@id/keyboard_grid"
+            android:contentDescription="@string/tip_cursor_right"/>
 
         <ImageButton
             android:id="@+id/cursor_right"
