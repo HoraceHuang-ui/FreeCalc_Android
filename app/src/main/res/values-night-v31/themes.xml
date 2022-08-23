@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.FreeCalc_Material3Test" parent="Base.Theme.FreeCalc_Material3Test">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/material_dynamic_primary70</item>
+        <item name="colorPrimary">@color/material_dynamic_primary50</item>
         <item name="colorPrimaryVariant">@color/design_default_color_primary_variant</item>
         <item name="colorOnPrimary">@color/material_dynamic_primary90</item>
         <item name="calcButtonFontColor">@color/material_dynamic_primary10</item>

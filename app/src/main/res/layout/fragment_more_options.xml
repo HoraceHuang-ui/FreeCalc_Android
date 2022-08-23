@@ -1,28 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <View
-        android:id="@+id/separator1"
+    android:layout_height="match_parent">
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#55c0c0c0"
-        android:layout_marginBottom="20dp"
-        android:layout_marginStart="22dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="22dp"
-        android:layout_rowWeight="1"/>
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-    <com.google.android.material.switchmaterial.SwitchMaterial
-        android:id="@+id/ovr_switch"
-        style="?attr/materialSwitchStyle"
-        android:text="@string/override_form"
-        android:textSize="20sp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="22dp"
-        android:layout_marginEnd="22dp"/>
+        <View
+            android:id="@+id/separator1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#55c0c0c0"
+            android:layout_marginBottom="20dp"
+            android:layout_marginStart="22dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="22dp"
+            android:layout_rowWeight="1"/>
 
-</LinearLayout>
+        <!-- Contents start here -->
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/options_calc_title"
+            android:textColor="?attr/colorPrimary"
+            android:textStyle="bold"
+            android:layout_marginStart="22dp"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="22dp"
+            android:layout_marginEnd="22dp">
+
+            <LinearLayout
+                android:id="@+id/ovr_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/ovr_switch"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:textSize="20sp"
+                    android:text="@string/override_form"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="?attr/textFillColor"
+                    android:layout_marginEnd="20dp"
+                    android:text="@string/ovr_form_tip"/>
+
+            </LinearLayout>
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/ovr_switch"
+                style="?attr/materialSwitchStyle"
+                android:textSize="20sp"
+                android:layout_gravity="end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/ovr_text"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/dec_accu_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Decimal Accuracy: 5"
+            android:textSize="20sp"
+            android:layout_marginTop="22dp"
+            android:layout_marginStart="22dp"
+            android:layout_marginEnd="22dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="?attr/textFillColor"
+            android:layout_marginEnd="22dp"
+            android:text="@string/dec_accu_dialog_msg"
+            android:layout_marginStart="22dp"/>
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/accuracy_slider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hapticFeedbackEnabled="true"
+            android:layout_marginStart="22dp"
+            android:layout_marginEnd="22dp"
+            android:stepSize="1"
+            android:valueFrom="0"
+            android:valueTo="15"
+            android:value="5"/>
+
+    </LinearLayout>
+</ScrollView>
