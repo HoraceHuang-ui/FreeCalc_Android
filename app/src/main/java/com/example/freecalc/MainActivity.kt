@@ -14,6 +14,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
+import androidx.core.view.isGone
 import androidx.core.view.marginStart
 import com.example.freecalc.databinding.ActivityMainBinding
 import com.google.android.material.button.MaterialButton
@@ -41,6 +42,9 @@ class MainActivity : AppCompatActivity() {
     // LOCAL SETTINGS
     lateinit var file: File
     var ovrForm = false
+    var abstractMode = false
+    private val keyboard_buttonTexts = "()^%123+456-789*,0./"
+    private var keyboard_buttons = emptyArray<Button>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -52,16 +56,17 @@ class MainActivity : AppCompatActivity() {
         file = File(this.filesDir, "settings")
         if (file.exists()) {
             val settingsStr = file.readLines()
-            if (settingsStr.size < 3) {
-                file.writeText("deg\n5\nnotOvr")
+            if (settingsStr.size < 4) {
+                file.writeText("deg\n5\nnotOvr\nnotAbs")
             } else {
                 deg = settingsStr[0] == "deg"
                 decAccu = settingsStr[1].toInt()
                 ovrForm = settingsStr[2] == "ovr"
+                abstractMode = settingsStr[3] == "abs"
             }
         } else {
             file.createNewFile()
-            file.writeText("deg\n5\nnotOvr")
+            file.writeText("deg\n5\nnotOvr\nnotAbs")
         }
 
         // TODO: Implement a FreeCalc logo on toolbar
@@ -72,8 +77,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.eqForm.inputType = EditorInfo.TYPE_NULL
 
-        val keyboard_buttons = Array<Button>(20) { MaterialButton(this) }
-        val keyboard_buttonTexts = "()^%123+456-789*,0./"
+        keyboard_buttons = Array(20) { MaterialButton(this) }
         val funcMode_kbButtonTexts = arrayOf(
             "sin", "cos", "tan",
             "cot", "sqr", "abs",
@@ -91,10 +95,10 @@ class MainActivity : AppCompatActivity() {
         binding.kbC.setOnClickListener(kbCListener())
         binding.kbBack.setOnClickListener(kbBackListener())
 
-        configureKbLower20Buttons(keyboard_buttons, keyboard_buttonTexts)
+        configureKbLower20Buttons(keyboard_buttons)
 
-        binding.kbFunc.setOnClickListener(kbFuncButtonListener(keyboard_buttons, funcMode_kbButtonTexts, keyboard_buttonTexts))
-        binding.kbConst.setOnClickListener(kbConsButtonListener(keyboard_buttons, keyboard_buttonTexts))
+        binding.kbFunc.setOnClickListener(kbFuncButtonListener(keyboard_buttons, funcMode_kbButtonTexts))
+        binding.kbConst.setOnClickListener(kbConsButtonListener(keyboard_buttons))
 
         binding.cursorLeft.setOnClickListener {
             val temp = binding.eqForm.selectionStart
@@ -112,6 +116,8 @@ class MainActivity : AppCompatActivity() {
                 binding.eqForm.setSelection(temp + 1)
             }
         }
+
+        setAbstractButtonTexts(abstractMode)
     }
 
     // CALC FUNCS
@@ -331,11 +337,19 @@ class MainActivity : AppCompatActivity() {
 
     private fun dedicatedKeyboardButtonListener(): View.OnClickListener {
         return View.OnClickListener {
-            if (binding.keyboardButton.text == getText(R.string.show_dedicated_keyboard)) {
-                binding.keyboardButton.text = getText(R.string.hide_dedicated_keyboard)
+            if (binding.keyboardGrid.isGone) {
+                if (abstractMode) {
+                    binding.keyboardButton.text = "\uD83C\uDE32⌨️"
+                } else {
+                    binding.keyboardButton.text = getString(R.string.hide_dedicated_keyboard)
+                }
                 binding.keyboardGrid.visibility = View.VISIBLE
             } else {
-                binding.keyboardButton.text = getText(R.string.show_dedicated_keyboard)
+                if (abstractMode) {
+                    binding.keyboardButton.text = "⏏️⌨️"
+                } else {
+                    binding.keyboardButton.text = getString(R.string.show_dedicated_keyboard)
+                }
                 binding.keyboardGrid.visibility = View.GONE
             }
         }
@@ -406,14 +420,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-    private fun setKbButtonProperties(index: Int, kb: Button, keyboard_buttonTexts: String) {
-        // val param = GridLayout.LayoutParams()
-        // param.rowSpec = (binding.kbC.layoutParams as GridLayout.LayoutParams).rowSpec
-        // param.columnSpec = (binding.kbC.layoutParams as GridLayout.LayoutParams).columnSpec
-        // param.marginStart = binding.kbC.marginStart
-        // kb.layoutParams = param
+    private fun setKbButtonProperties(index: Int, kb: Button) {
         kb.minHeight = binding.kbC.minHeight
-        // kb.width = binding.kbC.minWidth
         kb.textSize = px2sp(binding.kbC.textSize)
 
         val param = GridLayout.LayoutParams(
@@ -430,7 +438,7 @@ class MainActivity : AppCompatActivity() {
             false, false, false, true,
             true, false, true, true
         )
-        kb.text = when(index){
+        kb.text = when(index) {
             3 -> "mod"
             else -> keyboard_buttonTexts[index].toString()
         }
@@ -466,8 +474,32 @@ class MainActivity : AppCompatActivity() {
                             }
                         }
                         else -> {
-                            temp += kb.text.length
-                            kb.text.toString()
+                            if (abstractMode) {
+                                if (funcMode) {
+                                    when (i) {
+                                        4, 5, 6, 8, 9, 10, 12, 13, 14 ->  {
+                                            temp += kb.text.length
+                                            kb.text
+                                        }
+                                        else -> {
+                                            temp++
+                                            keyboard_buttonTexts[i].toString()
+                                        }
+                                    }
+                                } else if (consMode) {
+                                    temp++
+                                    when (i) {
+                                        4, 5, 6, 8, 9, 10, 12, 13, 14 -> kb.text
+                                        else -> keyboard_buttonTexts[i].toString()
+                                    }
+                                } else {
+                                    temp++
+                                    keyboard_buttonTexts[i].toString()
+                                }
+                            } else {
+                                temp += kb.text.length
+                                kb.text
+                            }
                         }})
                     + if (s.length == 0) { '_' } else { "" }
                     + s.substring(binding.eqForm.selectionEnd)
@@ -481,9 +513,9 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-    private fun configureKbLower20Buttons(keyboard_buttons: Array<Button>, keyboard_buttonTexts: String) {
+    private fun configureKbLower20Buttons(keyboard_buttons: Array<Button>) {
         for ((i, kb) in keyboard_buttons.withIndex()) {
-            setKbButtonProperties(i, kb, keyboard_buttonTexts)
+            setKbButtonProperties(i, kb)
             kb.setOnClickListener(kbLower20ButtonClickListener(i, kb))
             binding.keyboardGrid.addView(kb)
         }
@@ -518,40 +550,47 @@ class MainActivity : AppCompatActivity() {
             kb.text = ""
         }
     }
-    private fun resetModes(keyboard_buttons: Array<Button>, keyboard_buttonTexts: String) {
+    private fun resetModes(keyboard_buttons: Array<Button>) {
+
+        val abstract_buttonTexts = arrayOf(
+            "", "", "", "",
+            "1️⃣", "2️⃣", "3️⃣", "",
+            "4️⃣", "5️⃣", "6️⃣", "",
+            "7️⃣", "8️⃣", "9️⃣", "",
+        )
         if (funcMode) {
             funcMode = false
             binding.kbFunc.setBackgroundColor(Color.parseColor("#1100aa00"))
-            for ((i, kb) in keyboard_buttons.withIndex()) {
-                if (i < 4 || i % 4 == 3 || i > 15) continue
-                kb.text = keyboard_buttonTexts[i].toString()
-            }
         } else {
             consMode = false
             binding.kbConst.setBackgroundColor(Color.parseColor("#1100aa00"))
-            for ((i, kb) in keyboard_buttons.withIndex()) {
-                if (i < 4 || i % 4 == 3 || i > 15) continue
+        }
+        for ((i, kb) in keyboard_buttons.withIndex()) {
+            if (i < 4 || i % 4 == 3 || i > 15) continue
+            if (abstractMode) {
+                kb.text = abstract_buttonTexts[i]
+            } else {
                 kb.text = keyboard_buttonTexts[i].toString()
             }
         }
     }
-    private fun kbFuncButtonListener(keyboard_buttons: Array<Button>, funcMode_kbButtonTexts: Array<String>, keyboard_buttonTexts: String): View.OnClickListener {
+    private fun kbFuncButtonListener(keyboard_buttons: Array<Button>, funcMode_kbButtonTexts: Array<String>): View.OnClickListener {
         return View.OnClickListener {
             performHaptic(it)
             if (!funcMode) {
                 setFuncMode(keyboard_buttons, funcMode_kbButtonTexts)
             } else {
-                resetModes(keyboard_buttons, keyboard_buttonTexts)
+                resetModes(keyboard_buttons)
             }
         }
     }
-    private fun kbConsButtonListener(keyboard_buttons: Array<Button>, keyboard_buttonTexts: String): View.OnClickListener {
+    private fun kbConsButtonListener(keyboard_buttons: Array<Button>): View.OnClickListener {
         return View.OnClickListener {
             performHaptic(it)
             if (!consMode) {
                 setConsMode(keyboard_buttons)
             } else {
-                resetModes(keyboard_buttons, keyboard_buttonTexts)
+                resetModes(keyboard_buttons)
             }
         }
     }
@@ -575,13 +614,17 @@ class MainActivity : AppCompatActivity() {
         view.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY)
     }
     private fun saveSettings() {
-        file.writeText("%s\n%d\n%s".format(
+        file.writeText("%s\n%d\n%s\n%s".format(
             when (deg) {true -> "deg"
             false -> "rad"},
         decAccu,
         when (ovrForm) {
             true -> "ovr"
             false -> "notOvr"
+        },
+        when (abstractMode) {
+            true -> "abs"
+            false -> "notAbs"
         }))
     }
 
@@ -630,19 +673,26 @@ class MainActivity : AppCompatActivity() {
             R.id.action_more_dialog -> {
                 val customAlertDialogView =
                     LayoutInflater.from(this).inflate(R.layout.fragment_more_options, null, false)
-                val switch = customAlertDialogView.findViewById<SwitchMaterial>(R.id.ovr_switch)
-                switch.isChecked = ovrForm
+
+                val ovrSwitch = customAlertDialogView.findViewById<SwitchMaterial>(R.id.ovr_switch)
+                ovrSwitch.isChecked = ovrForm
                 val slider = customAlertDialogView.findViewById<Slider>(R.id.accuracy_slider)
                 slider.value = decAccu.toFloat()
                 customAlertDialogView.findViewById<TextView>(R.id.dec_accu_title).text = getString(R.string.accuracy).format(decAccu)
+                val absSwitch = customAlertDialogView.findViewById<SwitchMaterial>(R.id.abstract_switch)
+                absSwitch.isChecked = abstractMode
+
                 MaterialAlertDialogBuilder(this)
                     .setView(customAlertDialogView)
                     .setIcon(R.drawable.ic_settings)
                     .setTitle(getString(R.string.more_options))
                     .setPositiveButton(getString(R.string.dialog_button_ok)) { it, _ ->
-                        ovrForm = switch.isChecked
+                        ovrForm = ovrSwitch.isChecked
                         decAccu = slider.value.toInt()
+                        abstractMode = absSwitch.isChecked
                         saveSettings()
+                        setAbstractButtonTexts(abstractMode)
+
                         Toast.makeText(
                             this,
                             getString(R.string.toast_msg_saved),
@@ -667,6 +717,58 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun setAbstractButtonTexts(abs: Boolean) {
+        // 👈👉🧮©️®️➕➖✖️➗🟰☯️🔲◽❌🤺🈲⏏️⌨️🔺🔻🔹🔷🔘
+        // 1️⃣2️⃣3️⃣4️⃣5️⃣6️⃣7️⃣8️⃣9️⃣0️⃣
+        val abstract_buttonTexts = arrayOf(
+            "🫲", "🫱", "♐", "Ⓜ️",
+            "1️⃣", "2️⃣", "3️⃣", "➕",
+            "4️⃣", "5️⃣", "6️⃣", "➖",
+            "7️⃣", "8️⃣", "9️⃣", "✖️",
+            "☯️", "0️⃣", "\uD83D\uDD18", "➗"
+        )
+        if (abs && binding.kbC.text == " C ") {
+            binding.calcButton.text = "\uD83E\uDDEE"
+            binding.kbMc.text = "©️"
+            binding.kbMp.text = "\uD83D\uDD3A"
+            binding.kbMm.text = "\uD83D\uDD3B"
+            binding.kbMr.text = "®️"
+            binding.kbFunc.text = "\uD83D\uDD32"
+            binding.kbConst.text = "🔶"
+            binding.kbC.text = "❌"
+            binding.kbBack.text = "\uD83E\uDD3A"
+            if (binding.keyboardGrid.isGone) {
+                binding.keyboardButton.text = "⏏️⌨️"
+            } else {
+                binding.keyboardButton.text = "\uD83C\uDE32⌨️"
+            }
+            for ((i, kb) in keyboard_buttons.withIndex()) {
+                kb.text = abstract_buttonTexts[i]
+            }
+        } else if (!abs && binding.kbC.text != " C ") {
+            binding.calcButton.text = getString(R.string.calculate)
+            binding.kbMc.text = "MC"
+            binding.kbMp.text = "M+"
+            binding.kbMm.text = "M-"
+            binding.kbMr.text = "MR"
+            binding.kbFunc.text = "fun"
+            binding.kbConst.text = "con"
+            binding.kbC.text = " C "
+            binding.kbBack.text = "←"
+            if (binding.keyboardGrid.isGone) {
+                binding.keyboardButton.text = getString(R.string.show_dedicated_keyboard)
+            } else {
+                binding.keyboardButton.text = getString(R.string.hide_dedicated_keyboard)
+            }
+            for ((i, kb) in keyboard_buttons.withIndex()) {
+                kb.text = when (i) {
+                    3 -> "mod"
+                    else -> keyboard_buttonTexts[i].toString()
+                }
+            }
         }
     }
 
