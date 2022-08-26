@@ -11,20 +11,16 @@
     <string name="invalid_expression">请检查表达式后重试。</string>
     <string name="show_dedicated_keyboard">显示键盘</string>
     <string name="menu_item_deg">角度制</string>
-    <string name="action_done">完成</string>
-    <string name="dec_accu_dialog_title">小数精确位数</string>
     <string name="dec_accu_dialog_msg">在此处控制需要保留的小数位数。</string>
     <string name="dialog_button_ok">完成</string>
     <string name="dialog_button_cancel">取消</string>
     <string name="toast_msg_saved">已保存。</string>
     <string name="toast_msg_cancelled">已取消。</string>
     <string name="menu_item_about">关于</string>
-    <string name="menu_item_accuracy">小数位数</string>
-    <string name="dec_accu_dialog_save_return_msg">小数位数已设为 %d。</string>
     <string name="rad_item_return_msg">已设为弧度制。</string>
     <string name="deg_item_return_msg">已设为角度制。</string>
     <string name="about_freecalc">关于自由计算器</string>
-    <string name="made_by_horace">v1.5.1 HoraceHYY 出品</string>
+    <string name="made_by_horace">v1.5.5 HoraceHYY 出品</string>
     <string name="more_options">更多设置</string>
     <string name="override_form">计算后覆盖原式</string>
     <string name="tip_cursor_left">光标左移</string>
@@ -34,4 +30,7 @@
     <string name="about_github">GitHub 仓库: https://github.com/HoraceHuang-ui/FreeCalc-Android</string>
     <string name="about_email">邮箱: horacehuang17@gmail.com</string>
     <string name="about_wechat">微信 ID: HoraceHYY</string>
+    <string name="abstract_mode">抽象模式</string>
+    <string name="abstract_mode_tip">使界面更抽象，在部分设备上可能显示异常。</string>
+    <string name="options_misc_title">杂项</string>
 </resources>
