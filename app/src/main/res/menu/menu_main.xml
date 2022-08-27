@@ -20,5 +20,5 @@
         android:icon="@drawable/ic_undo_disabled"
         android:title="Undo"
         android:enabled="false"
-        android:showAsAction="always"/>
+        app:showAsAction="always" />
 </menu>

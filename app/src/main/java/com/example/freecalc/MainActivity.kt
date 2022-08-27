@@ -6,6 +6,7 @@ import android.content.res.Resources
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
@@ -13,6 +14,8 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.isGone
 import androidx.core.view.marginStart
@@ -681,6 +684,65 @@ class MainActivity : AppCompatActivity() {
                 customAlertDialogView.findViewById<TextView>(R.id.dec_accu_title).text = getString(R.string.accuracy).format(decAccu)
                 val absSwitch = customAlertDialogView.findViewById<SwitchMaterial>(R.id.abstract_switch)
                 absSwitch.isChecked = abstractMode
+                customAlertDialogView.findViewById<TextView>(R.id.language_preference_1).setOnClickListener {
+                    val popupMenu = PopupMenu(this, it)
+                    popupMenu.menuInflater.inflate(R.menu.lang_popup, popupMenu.menu)
+                    popupMenu.setOnMenuItemClickListener { item ->
+                        when(item.itemId) {
+                            R.id.lang_ch -> {
+                                val appLocale: LocaleListCompat = LocaleListCompat.forLanguageTags("zh-CN")
+                                AppCompatDelegate.setApplicationLocales(appLocale)
+                                Toast.makeText(
+                                    this@MainActivity,
+                                    "正在切换语言……",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                            R.id.lang_en -> {
+                                val appLocale: LocaleListCompat = LocaleListCompat.forLanguageTags("en-US")
+                                AppCompatDelegate.setApplicationLocales(appLocale)
+                                Toast.makeText(
+                                    this@MainActivity,
+                                    "Switching language...",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                        true
+                    }
+                    popupMenu.show()
+                }
+                customAlertDialogView.findViewById<TextView>(R.id.language_preference_2).setOnClickListener {
+                    // val intent = Intent(Settings.ACTION_LOCALE_SETTINGS)
+                    // Toast.makeText(this, getString(R.string.language_nav_msg), Toast.LENGTH_LONG).show()
+                    // this.startActivity(intent)
+                    val popupMenu = PopupMenu(this, it)
+                    popupMenu.menuInflater.inflate(R.menu.lang_popup, popupMenu.menu)
+                    popupMenu.setOnMenuItemClickListener { item ->
+                        when(item.itemId) {
+                            R.id.lang_ch -> {
+                                val appLocale: LocaleListCompat = LocaleListCompat.forLanguageTags("zh-CN")
+                                AppCompatDelegate.setApplicationLocales(appLocale)
+                                Toast.makeText(
+                                    this@MainActivity,
+                                    "正在切换语言……",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                            R.id.lang_en -> {
+                                val appLocale: LocaleListCompat = LocaleListCompat.forLanguageTags("en-US")
+                                AppCompatDelegate.setApplicationLocales(appLocale)
+                                Toast.makeText(
+                                    this@MainActivity,
+                                    "Switching language...",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                        true
+                    }
+                    popupMenu.show()
+                }
 
                 MaterialAlertDialogBuilder(this)
                     .setView(customAlertDialogView)
