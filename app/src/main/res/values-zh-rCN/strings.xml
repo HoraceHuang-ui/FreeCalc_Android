@@ -33,4 +33,8 @@
     <string name="abstract_mode">抽象模式</string>
     <string name="abstract_mode_tip">使界面更抽象，在部分设备上可能显示异常。</string>
     <string name="options_misc_title">杂项</string>
+    <string name="options_general_title">通用</string>
+    <string name="language">语言</string>
+    <string name="language_tip">Chinese</string>
+    <string name="language_nav_msg">仅支持中英文，您的几乎所有软件语言都将更改。</string>
 </resources>

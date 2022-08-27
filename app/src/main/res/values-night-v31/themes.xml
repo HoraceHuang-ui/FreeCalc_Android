@@ -20,6 +20,7 @@
         <item name="switchStyle">@style/Widget.Material3.CompoundButton.Switch</item>
         <!-- For buttons -->
         <item name="buttonStyle">@style/Widget.Material3.Button.TextButton</item>
+        <item name="popupMenuStyle">@style/Widget.Material3.PopupMenu</item>
 
         <!-- Customize your theme here. -->
         <item name="textFillColor">#66FFFFFF</item>

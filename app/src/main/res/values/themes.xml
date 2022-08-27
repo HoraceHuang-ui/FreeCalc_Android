@@ -23,6 +23,7 @@
         <item name="materialAlertDialogTheme">@style/ThemeOverlay.Material3.MaterialAlertDialog.Centered</item>
         <item name="outlinedFillColor">@color/white</item>
         <item name="actionBarIconColor">#2a3836</item>
+        <item name="popupMenuStyle">@style/Widget.Material3.PopupMenu</item>
     </style>
 
     <style name="buttonShape">
