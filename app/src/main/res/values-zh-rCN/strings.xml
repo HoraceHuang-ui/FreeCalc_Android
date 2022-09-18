@@ -20,14 +20,14 @@
     <string name="rad_item_return_msg">已设为弧度制。</string>
     <string name="deg_item_return_msg">已设为角度制。</string>
     <string name="about_freecalc">关于自由计算器</string>
-    <string name="made_by_horace">v1.5.5 HoraceHYY 出品</string>
+    <string name="made_by_horace">v1.6.0 HoraceHYY 出品</string>
     <string name="more_options">更多设置</string>
     <string name="override_form">计算后覆盖原式</string>
     <string name="tip_cursor_left">光标左移</string>
     <string name="tip_cursor_right">光标右移</string>
     <string name="options_calc_title">计算</string>
     <string name="ovr_form_tip">计算后结果将覆盖输入框中的式子。</string>
-    <string name="about_github">GitHub 仓库: https://github.com/HoraceHuang-ui/FreeCalc-Android</string>
+    <string name="about_github">GitHub 仓库: https://github.com/HoraceHuang-ui/FreeCalc_Android</string>
     <string name="about_email">邮箱: horacehuang17@gmail.com</string>
     <string name="about_wechat">微信 ID: HoraceHYY</string>
     <string name="abstract_mode">抽象模式</string>

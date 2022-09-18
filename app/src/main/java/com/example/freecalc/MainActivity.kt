@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var file: File
     var ovrForm = false
     var abstractMode = false
-    private val keyboard_buttonTexts = "()^%123+456-789*,0./"
+    private val keyboard_buttonTexts = "()^%789*456-123+,0./"
     private var keyboard_buttons = emptyArray<Button>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -119,16 +119,15 @@ class MainActivity : AppCompatActivity() {
                 binding.eqForm.setSelection(temp + 1)
             }
         }
+        binding.eqForm.setOnFocusChangeListener { _, b ->
+            if (b) {
+                if (binding.eqForm.text?.length == 0) {
+                    binding.eqForm.setText("_")
+                }
+            }
+        }
 
         setAbstractButtonTexts(abstractMode)
-    }
-
-    // CALC FUNCS
-    private fun isFunc(eq: String, i: Int): Boolean {
-        val funcs = arrayOf( "sqr", "sin", "cos", "tan", "cot", "abs", "cei", "flo" )
-        if (i >= eq.length) return false
-        if (eq.substring(i).length < 3) return false
-        return funcs.contains(eq.substring(i, i+3))
     }
     private fun priorTo(tk1: Char, tk2: Char): Int {
         val priority = mapOf(
@@ -149,17 +148,28 @@ class MainActivity : AppCompatActivity() {
         else
             0
     }
+    // CALC FUNCS
+    private fun isFunc(eq: String, i: Int): Boolean {
+        val funcs = arrayOf( "sqr", "sin", "cos",
+            "tan", "cot", "abs", "cei", "flo" )
+        if (i >= eq.length) return false
+        if (eq.substring(i).length < 3) return false
+        return funcs.contains(eq.substring(i, i+3))
+    }
+
     private fun isOp(op: String): Boolean {
         return "+-*/^".contains(op)
     }
-    private fun isConst(eq: String, i: Int): Boolean {
-        return "EPM".contains(eq[i])
-    }
+
     private fun isSpecialFunc(eq: String, i: Int): Boolean {
         val funcs = arrayOf("log")
         if (i >= eq.length) return false
         if (eq.substring(i).length < 3) return false
         return funcs.contains(eq.substring(i, i+3))
+    }
+
+    private fun isConst(eq: String, i: Int): Boolean {
+        return "EPM".contains(eq[i])
     }
 
     private fun transformToRPN(eq: String): Stack<String> {
@@ -200,8 +210,9 @@ class MainActivity : AppCompatActivity() {
                 }
                 // Lower or equal priority than previous
                 else {
-                    while (!s1.isEmpty() && (isFunc(s1.peek(), 0) || isSpecialFunc(s1.peek(), 0) ||
-                                (s1.peek() != "(" && priorTo(s1.peek()[0], eq[i]) >= 0))) {
+                    while (!s1.isEmpty() &&
+                            (isFunc(s1.peek(), 0) || isSpecialFunc(s1.peek(), 0) ||
+                            (s1.peek() != "(" && priorTo(s1.peek()[0], eq[i]) >= 0))) {
                         s2.push(s1.pop())
                     }
                     s1.push(eq[i].toString())
@@ -403,7 +414,7 @@ class MainActivity : AppCompatActivity() {
             performHaptic(it)
             prevForm = binding.eqForm.text.toString()
             setUndoState(true, binding.toolbar.menu.findItem(R.id.action_undo))
-            binding.eqForm.setText("")
+            binding.eqForm.setText("_")
             binding.resText.text = ""
         }
     }
@@ -504,7 +515,7 @@ class MainActivity : AppCompatActivity() {
                                 kb.text
                             }
                         }})
-                    + if (s.length == 0) { '_' } else { "" }
+                    + if (s.isEmpty()) { '_' } else { "" }
                     + s.substring(binding.eqForm.selectionEnd)
             )
             binding.eqForm.setSelection(temp)
@@ -557,9 +568,9 @@ class MainActivity : AppCompatActivity() {
 
         val abstract_buttonTexts = arrayOf(
             "", "", "", "",
-            "1️⃣", "2️⃣", "3️⃣", "",
-            "4️⃣", "5️⃣", "6️⃣", "",
             "7️⃣", "8️⃣", "9️⃣", "",
+            "4️⃣", "5️⃣", "6️⃣", "",
+            "1️⃣", "2️⃣", "3️⃣", ""
         )
         if (funcMode) {
             funcMode = false
@@ -787,9 +798,9 @@ class MainActivity : AppCompatActivity() {
         // 1️⃣2️⃣3️⃣4️⃣5️⃣6️⃣7️⃣8️⃣9️⃣0️⃣
         val abstract_buttonTexts = arrayOf(
             "🫲", "🫱", "♐", "Ⓜ️",
-            "1️⃣", "2️⃣", "3️⃣", "➕",
-            "4️⃣", "5️⃣", "6️⃣", "➖",
             "7️⃣", "8️⃣", "9️⃣", "✖️",
+            "4️⃣", "5️⃣", "6️⃣", "➖",
+            "1️⃣", "2️⃣", "3️⃣", "➕",
             "☯️", "0️⃣", "\uD83D\uDD18", "➗"
         )
         if (abs && binding.kbC.text == " C ") {
@@ -803,9 +814,9 @@ class MainActivity : AppCompatActivity() {
             binding.kbC.text = "❌"
             binding.kbBack.text = "\uD83E\uDD3A"
             if (binding.keyboardGrid.isGone) {
-                binding.keyboardButton.text = "⏏️⌨️"
+                binding.keyboardButton.text = "⏏️ ⌨️"
             } else {
-                binding.keyboardButton.text = "\uD83C\uDE32⌨️"
+                binding.keyboardButton.text = "\uD83C\uDE32 ⌨️"
             }
             for ((i, kb) in keyboard_buttons.withIndex()) {
                 kb.text = abstract_buttonTexts[i]
