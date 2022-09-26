@@ -20,7 +20,7 @@
     <string name="rad_item_return_msg">Now in Radian mode.</string>
     <string name="deg_item_return_msg">Now in Degree mode.</string>
     <string name="about_freecalc">About FreeCalc</string>
-    <string name="made_by_horace">v1.6.0 Made by Horace Huang</string>
+    <string name="made_by_horace">v1.6.1 Made by Horace Huang</string>
     <string name="more_options">More Options</string>
     <string name="override_form">Override Form</string>
     <string name="tip_cursor_left">Move cursor left</string>

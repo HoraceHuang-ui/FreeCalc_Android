@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
     // STATUS VALUES
     var funcMode = false
     var consMode = false
-    var prevForm = ""
+    var prevForm = mutableListOf<String>()
 
     // LOCAL SETTINGS
     lateinit var file: File
@@ -111,13 +111,31 @@ class MainActivity : AppCompatActivity() {
                 binding.eqForm.setSelection(temp - 1)
             }
         }
-        binding.cursorRight.setOnClickListener { _ ->
+        binding.cursorLeft.setOnLongClickListener {
+            val temp = binding.eqForm.selectionStart
+            if (temp != 0) {
+                val s = binding.eqForm.text.toString()
+                binding.eqForm.setText("_" + s.substring(0 until temp-1) + s[temp-1] + s.substring(temp+1))
+                binding.eqForm.setSelection(0)
+            }
+            true
+        }
+        binding.cursorRight.setOnClickListener {
             val temp = binding.eqForm.selectionStart
             if (binding.eqForm.length() != 0 && temp != binding.eqForm.length()-1) {
                 val s = binding.eqForm.text.toString()
                 binding.eqForm.setText(s.substring(0 until temp) + s[temp+1] + "_" + s.substring(temp+2))
                 binding.eqForm.setSelection(temp + 1)
             }
+        }
+        binding.cursorRight.setOnLongClickListener {
+            val temp = binding.eqForm.selectionStart
+            if (binding.eqForm.length() != 0 && temp != binding.eqForm.length()-1) {
+                val s = binding.eqForm.text.toString()
+                binding.eqForm.setText(s.substring(0 until temp) + s[temp+1] + s.substring(temp+2) + "_")
+                binding.eqForm.setSelection(binding.eqForm.length() - 1)
+            }
+            true
         }
         binding.eqForm.setOnFocusChangeListener { _, b ->
             if (b) {
@@ -340,12 +358,13 @@ class MainActivity : AppCompatActivity() {
                 }
                 i++
             }
-            prevForm = s + "_"
             tryCalculation(s)
             if (ovrForm) {
                 binding.eqForm.setText(binding.resText.text.toString() + "_")
                 binding.eqForm.setSelection(binding.eqForm.text!!.length-1)
             }
+
+            prevForm.add(s+binding.resText.text)
         }
     }
 
@@ -412,8 +431,6 @@ class MainActivity : AppCompatActivity() {
     private fun kbCListener(): View.OnClickListener {
         return View.OnClickListener {
             performHaptic(it)
-            prevForm = binding.eqForm.text.toString()
-            setUndoState(true, binding.toolbar.menu.findItem(R.id.action_undo))
             binding.eqForm.setText("_")
             binding.resText.text = ""
         }
@@ -664,9 +681,10 @@ class MainActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.action_undo -> {
                 setUndoState(false, item)
-                binding.eqForm.setText(prevForm)
-                if (prevForm.length > 1) {
-                    binding.eqForm.setSelection(prevForm.length - 1)
+                binding.eqForm.setText(prevForm[prevForm.size - 1])
+                val len = binding.eqForm.text!!.length
+                if (len > 1) {
+                    binding.eqForm.setSelection(len)
                 }
                 true
             }
@@ -789,6 +807,10 @@ class MainActivity : AppCompatActivity() {
                     .show()
                 true
             }
+            // TODO: Implement history feature
+            // R.id.action_history -> {
+            //     true
+            // }
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -852,6 +874,16 @@ class MainActivity : AppCompatActivity() {
         } else {
             item.isEnabled = false
             item.icon = getDrawable(R.drawable.ic_undo_disabled)
+        }
+    }
+
+    private fun setHistoryState(setEnabled: Boolean, item: MenuItem) {
+        if (setEnabled) {
+            item.isEnabled = true
+            item.icon = getDrawable(R.drawable.ic_history)
+        } else {
+            item.isEnabled = false
+            item.icon = getDrawable(R.drawable.ic_history_disabled)
         }
     }
 }
