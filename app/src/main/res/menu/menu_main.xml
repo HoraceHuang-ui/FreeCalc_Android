@@ -21,4 +21,12 @@
         android:title="Undo"
         android:enabled="false"
         app:showAsAction="always" />
+
+    <!--
+    <item android:id="@+id/action_history"
+        android:icon="@drawable/ic_history"
+        android:title="history"
+        android:enabled="false"
+        app:showAsAction="always" />
+        -->
 </menu>
