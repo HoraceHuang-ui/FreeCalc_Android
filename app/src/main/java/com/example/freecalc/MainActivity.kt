@@ -7,10 +7,7 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -364,7 +361,7 @@ class MainActivity : AppCompatActivity() {
                 binding.eqForm.setSelection(binding.eqForm.text!!.length-1)
             }
 
-            prevForm.add(s+binding.resText.text)
+            prevForm.add(s)
         }
     }
 
@@ -486,7 +483,6 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     private fun kbLower20ButtonClickListener(i: Int, kb: Button): View.OnClickListener {
         return View.OnClickListener {
-            performHaptic(it)
             val s = binding.eqForm.text.toString()
             var temp = binding.eqForm.selectionStart
             binding.eqForm.setText(s.substring(0 until temp) +
@@ -548,6 +544,14 @@ class MainActivity : AppCompatActivity() {
         for ((i, kb) in keyboard_buttons.withIndex()) {
             setKbButtonProperties(i, kb)
             kb.setOnClickListener(kbLower20ButtonClickListener(i, kb))
+            kb.setOnTouchListener { it, event ->
+                if (event.action == MotionEvent.ACTION_DOWN) {
+                    performHaptic(it)
+                } else if (event.action == MotionEvent.ACTION_UP) {
+                    kb.performClick()
+                }
+                true
+            }
             binding.keyboardGrid.addView(kb)
         }
     }
@@ -708,11 +712,29 @@ class MainActivity : AppCompatActivity() {
 
                 val ovrSwitch = customAlertDialogView.findViewById<SwitchMaterial>(R.id.ovr_switch)
                 ovrSwitch.isChecked = ovrForm
+                ovrSwitch.setOnTouchListener { it, event ->
+                    if (event.action == MotionEvent.ACTION_DOWN) {
+                        performHaptic(it)
+                    } else if (event.action == MotionEvent.ACTION_UP) {
+                        performHaptic(it)
+                        it.performClick()
+                    }
+                    true
+                }
                 val slider = customAlertDialogView.findViewById<Slider>(R.id.accuracy_slider)
                 slider.value = decAccu.toFloat()
                 customAlertDialogView.findViewById<TextView>(R.id.dec_accu_title).text = getString(R.string.accuracy).format(decAccu)
                 val absSwitch = customAlertDialogView.findViewById<SwitchMaterial>(R.id.abstract_switch)
                 absSwitch.isChecked = abstractMode
+                absSwitch.setOnTouchListener { it, event ->
+                    if (event.action == MotionEvent.ACTION_DOWN) {
+                        performHaptic(it)
+                    } else if (event.action == MotionEvent.ACTION_UP) {
+                        performHaptic(it)
+                        it.performClick()
+                    }
+                    true
+                }
                 customAlertDialogView.findViewById<TextView>(R.id.language_preference_1).setOnClickListener {
                     val popupMenu = PopupMenu(this, it)
                     popupMenu.menuInflater.inflate(R.menu.lang_popup, popupMenu.menu)
