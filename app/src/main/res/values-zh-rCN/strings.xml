@@ -20,7 +20,7 @@
     <string name="rad_item_return_msg">已设为弧度制。</string>
     <string name="deg_item_return_msg">已设为角度制。</string>
     <string name="about_freecalc">关于自由计算器</string>
-    <string name="made_by_horace">v1.6.1 HoraceHYY 出品</string>
+    <string name="made_by_horace">v1.6.2 HoraceHYY 出品</string>
     <string name="more_options">更多设置</string>
     <string name="override_form">计算后覆盖原式</string>
     <string name="tip_cursor_left">光标左移</string>
