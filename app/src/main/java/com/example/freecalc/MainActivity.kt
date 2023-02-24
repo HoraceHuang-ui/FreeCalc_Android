@@ -173,7 +173,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun isOp(op: String): Boolean {
-        return "+-*/^".contains(op)
+        return "+-%*/^".contains(op)
     }
 
     private fun isSpecialFunc(eq: String, i: Int): Boolean {
