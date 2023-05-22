@@ -274,7 +274,7 @@ class MainActivity : AppCompatActivity() {
                     "%" -> s.push((op2.toDouble() % op1.toDouble()).toString())
                     "*" -> s.push((op2.toDouble() * op1.toDouble()).toString())
                     "/" -> s.push((op2.toDouble() / op1.toDouble()).toString())
-                    "^" -> s.push((op2.toDouble().pow(op1.toInt())).toString())
+                    "^" -> s.push((op2.toDouble().pow(op1.toDouble())).toString())
                 }
             }
             // Constants
